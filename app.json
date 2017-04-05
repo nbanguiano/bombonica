@@ -1,0 +1,8 @@
+{
+  "name": "Bombonica CRM",
+  "description": "A MEAN CRM-like app for my wife's bakery.",
+  "repository": "https://git.heroku.com/bombonica.git",
+  "logo": "https://mlab.com/company/brand/resources/mLab-logo-onlight.png",
+  "keywords": ["node", "express", "angular", "angular2", "MEAN", "mongodb", "REST", "API"],
+  "addons": ["mongolab"]
+}
