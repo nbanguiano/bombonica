@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-5">
+    <h2>Orders</h2>
+    <ul class="list-group">
+      <li class="list-group-item"
+        *ngFor="let order of orders"
+        (click)="selectOrder(order)"
+        [class.active]="order === selectedOrder">
+        {{order.name}}
+      </li>
+    </ul>
+    <button class="btn btn-warning" (click)="createNewOrder()">New</button>
+  </div>
+  <div class="col-md-5 col-md-offset-2">
+    <order-details
+      [order]="selectedOrder"
+      [contacts]="contacts"
+      [createHandler]="addOrder"
+      [updateHandler]="updateOrder"
+      [deleteHandler]="deleteOrder">
+    </order-details>
+  </div>
+</div>
