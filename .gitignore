@@ -33,6 +33,7 @@ npm-debug.log
 testem.log
 /typings
 .env
+.requirements
 
 # e2e
 /e2e/*.js
