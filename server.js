@@ -24,17 +24,18 @@ app.use(express.static(pFolioDir));
 
 app.get('/shield',function(req,res){
   res.sendFile(pFolioDir + 'shield/index.html');
-  //It will find and locate index.html from dist
 });
 
 app.get('/knight',function(req,res){
   res.sendFile(pFolioDir + 'knight/index.html');
-  //It will find and locate index.html from dist
 });
 
 app.get('/flusk',function(req,res){
   res.sendFile(pFolioDir + 'flusk/index.html');
-  //It will find and locate index.html from dist
+});
+
+app.get('/ethereal',function(req,res){
+  res.sendFile(pFolioDir + 'ethereal/index.html');
 });
 
 // This will let the rendring to the front-end based on the client state.
