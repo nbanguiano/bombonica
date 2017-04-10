@@ -8,6 +8,7 @@ import { OrderListComponent } from '../orders/order-list/order-list.component';
 import { OrderDetailsComponent } from '../orders/order-details/order-details.component';
 import { IngredientListComponent } from '../ingredients/ingredient-list/ingredient-list.component';
 import { IngredientDetailsComponent } from '../ingredients/ingredient-details/ingredient-details.component';
+import { SigninComponent } from '../signin/signin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/contacts', pathMatch: 'full' },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'orders', component: OrderListComponent },
   { path: 'orders/:id', component: OrderDetailsComponent },
   { path: 'ingredients',  component: IngredientListComponent },
-  { path: 'ingredients/:id',  component: IngredientDetailsComponent }
+  { path: 'ingredients/:id',  component: IngredientDetailsComponent },
+  { path: 'signin',  component: SigninComponent }
 ];
 
 @NgModule({

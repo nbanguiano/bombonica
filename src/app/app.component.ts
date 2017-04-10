@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+//import { WindowRefService } from './common/window-ref.service';
 
 @Component({
   selector: 'app-root',

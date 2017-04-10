@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { RoutingModule } from './routing/routing.module';
 
+import { WindowRefService } from './common/window-ref.service';
+
 import { AppComponent } from './app.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
@@ -14,6 +16,10 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
+//import { RegisterComponent } from './register/register.component';
+import { SigninComponent } from './signin/signin.component';
+//import { NavigationComponent } from './navigation/navigation.component';
+//import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,10 @@ import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.
     OrderDetailsComponent,
     RecipeListComponent,
     RecipeDetailsComponent,
+    //RegisterComponent,
+    SigninComponent
+    //NavigationComponent,
+    //ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,7 @@ import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.
     HttpModule,
     RoutingModule
   ],
-  providers: [],
+  providers: [WindowRefService],
   bootstrap: [AppComponent]
 })
 
