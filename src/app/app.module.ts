@@ -6,6 +6,9 @@ import { HttpModule } from '@angular/http';
 import { RoutingModule } from './routing/routing.module';
 
 import { WindowRefService } from './common/window-ref.service';
+import { UserService } from './common/user.service';
+import { CanActivateGuard } from './common/can-activate-guard.service';
+import { CanActivateChildGuard } from './common/can-activate-child-guard.service';
 
 import { AppComponent } from './app.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
@@ -16,10 +19,8 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
-//import { RegisterComponent } from './register/register.component';
 import { SigninComponent } from './signin/signin.component';
-//import { NavigationComponent } from './navigation/navigation.component';
-//import { ProfileComponent } from './profile/profile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -32,10 +33,8 @@ import { SigninComponent } from './signin/signin.component';
     OrderDetailsComponent,
     RecipeListComponent,
     RecipeDetailsComponent,
-    //RegisterComponent,
-    SigninComponent
-    //NavigationComponent,
-    //ProfileComponent,
+    SigninComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +42,7 @@ import { SigninComponent } from './signin/signin.component';
     HttpModule,
     RoutingModule
   ],
-  providers: [WindowRefService],
+  providers: [WindowRefService, UserService, CanActivateGuard, CanActivateChildGuard],
   bootstrap: [AppComponent]
 })
 

@@ -35,6 +35,7 @@ testem.log
 .env
 .requirements
 *.not
+/_archive
 
 # e2e
 /e2e/*.js

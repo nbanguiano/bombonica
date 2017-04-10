@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
 import { Http, Response } from '@angular/http';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { User } from './user';
 import { WindowRefService } from './window-ref.service';
 import 'rxjs/add/operator/toPromise';
 
@@ -13,7 +15,9 @@ export class UserService {
   }
 
   constructor(private http: Http,
-              private window: WindowRefService) {}
+              private window: WindowRefService,
+              private router: Router,
+              private activeRoute: ActivatedRoute) {}
   
   private handleError (error: any) {
     let errMsg = (error.message) ? error.message :
@@ -29,7 +33,19 @@ export class UserService {
     return window.localStorage['bombonica-token'];
   };
 
-  private isLoggedIn() {
+  private currentUser() {
+    if(this.isLoggedIn()){
+      var token = this.getToken();
+      var payload = token.split('.')[1];
+      payload = window.atob(payload);
+      payload = JSON.parse(payload);
+      return {
+        name : payload.name
+      };
+    }
+  };
+
+  isLoggedIn() {
     var token = this.getToken();
     var payload;
     if(token){
@@ -43,23 +59,13 @@ export class UserService {
     };
   };
 
-  private currentUser() {
-    if(this.isLoggedIn()){
-      var token = this.getToken();
-      var payload = token.split('.')[1];
-      payload = window.atob(payload);
-      payload = JSON.parse(payload);
-      return {
-        name : payload.name
-      };
-    }
-  };
-
-
   signin(existingUser: User): Promise<void> {
     return this.http.post(this.endPoints.signin, existingUser)
                .toPromise()
-               .then(response => this.saveToken(response.json().token))
+               .then(response => {
+                 this.saveToken(response.json().token);
+                 this.router.navigate(['/admin/dashboard']);
+                })
                .catch(this.handleError);
   }
 
@@ -70,7 +76,7 @@ export class UserService {
                .catch(this.handleError);
   }
 
-  logout() {
+  signout() {
     window.localStorage.removeItem('bombonica-token');
   }
 

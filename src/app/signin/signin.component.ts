@@ -16,7 +16,7 @@ export class SigninComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.logout();
+    this.userService.signout();
 
     var user: User = {
       name: '',
@@ -35,6 +35,10 @@ export class SigninComponent implements OnInit {
     this.userService.signup(user)
         .then()
         .catch(error => console.error(error.message));
+  }
+
+  signoutUser() {
+    this.userService.signout();
   }
 
 }
