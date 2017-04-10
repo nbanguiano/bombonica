@@ -29,11 +29,11 @@ var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
 // Create link to Portfolio static directory
-var pFolioDir = __dirname + "/portfolio/";
-app.use(express.static(pFolioDir));
+var portfolioDir = __dirname + "/portfolio/";
+app.use(express.static(portfolioDir));
 
-app.get("/portfolio",function(req,res){
-  res.sendFile(pFolioDir + "ethereal/index.html");
+app.get("/me",function(req,res){
+  res.sendFile(portfolioDir + "/index.html");
 });
 
 // This will let the rendring to the front-end based on the client state.
