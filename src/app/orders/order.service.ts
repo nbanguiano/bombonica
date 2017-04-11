@@ -3,15 +3,23 @@ import { Order } from './order';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
+import { UserService } from '../common/user.service';
+
 @Injectable()
 export class OrderService {
+
+  constructor(private http: Http,
+              private user: UserService) {}
+
   private ordersUrl = '/api/orders';
 
-  constructor(private http: Http) {}
+  private signUri(uri) {
+    return uri + '?token=' + this.user.getToken();
+  }
 
   // get("/api/orders")
   getOrders(): Promise<Order[]>{
-    return this.http.get(this.ordersUrl)
+    return this.http.get(this.signUri(this.ordersUrl))
                .toPromise()
                .then(response => response.json() as Order[])
                .catch(this.handleError);
@@ -19,7 +27,7 @@ export class OrderService {
 
   // post("/api/orders")
   createOrder(newOrder: Order): Promise<Order> {
-    return this.http.post(this.ordersUrl, newOrder)
+    return this.http.post(this.signUri(this.ordersUrl), newOrder)
                .toPromise()
                .then(response => response.json() as Order)
                .catch(this.handleError);
@@ -29,7 +37,7 @@ export class OrderService {
 
   // put("/api/orders/:id")
   updateOrder(putOrder: Order): Promise<Order> {
-    var putUrl = this.ordersUrl + '/' + putOrder._id;
+    var putUrl = this.signUri(this.ordersUrl + '/' + putOrder._id);
     return this.http.put(putUrl, putOrder)
                .toPromise()
                .then(response => response.json() as Order)
@@ -38,7 +46,7 @@ export class OrderService {
 
   // delete("/api/orders/:id")
   deleteOrder(delOrderId: String): Promise<String> {
-    return this.http.delete(this.ordersUrl + '/' + delOrderId)
+    return this.http.delete(this.signUri(this.ordersUrl + '/' + delOrderId))
                .toPromise()
                .then(response => response.json() as String)
                .catch(this.handleError);

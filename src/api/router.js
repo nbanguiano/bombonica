@@ -6,31 +6,22 @@ var auth = jwt({
   userProperty: "payload"
 });
 
-
-var profileController = require('../auth/profile');
-var authController = require('../auth/authentication');
-
 var apiHandlers = require("./handlers");
+var auth = require("../auth/authentication").apiauth;
 
 const modelPaths = {
   contacts: "../models/contacts",
   orders: "../models/orders"
 };
 
+// The router is applied on top of te /api route, so only relative paths needed here
 const endPoints = {
-  profile: {raw: "/api/profile"},
-  signup: {raw: "/api/signup"},
-  signin: {raw: "/api/signin"},
-  contacts: {raw: "/api/contacts", byid: "/api/contacts/:id"},
-  orders: {raw: "/api/orders", byid: "/api/orders/:id"},
+  contacts: {raw: "/contacts", byid: "/contacts/:id"},
+  orders: {raw: "/orders", byid: "/orders/:id"},
 };
 
-// User handling
-// Get user
-router.get(endPoints.profile.raw, auth, profileController.profileRead);
-// The authentication bit
-router.post(endPoints.signup.raw, authController.signup);
-router.post(endPoints.signin.raw, authController.signin);
+// Require authentication for all API routes
+router.use(auth);
 
 // Data handling
 //  - GET: finds all contacts

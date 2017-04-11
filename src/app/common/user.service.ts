@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { User } from './user';
 import { WindowRefService } from './window-ref.service';
@@ -10,16 +10,15 @@ import 'rxjs/add/operator/toPromise';
 export class UserService {
   
   private endPoints = {
-    signup: '/api/signup',
-    signin: '/api/signin'
+    signup: '/signup',
+    signin: '/signin'
   }
 
   constructor(private http: Http,
               private window: WindowRefService,
-              private router: Router,
-              private activeRoute: ActivatedRoute) {}
+              private router: Router) {}
   
-  private handleError (error: any) {
+  private handleError(error: any) {
     let errMsg = (error.message) ? error.message :
     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
@@ -29,10 +28,7 @@ export class UserService {
   private saveToken(token) {
     window.localStorage['bombonica-token'] = token;
   };
-  private getToken() {
-    return window.localStorage['bombonica-token'];
-  };
-
+  
   private currentUser() {
     if(this.isLoggedIn()){
       var token = this.getToken();
@@ -43,6 +39,10 @@ export class UserService {
         name : payload.name
       };
     }
+  };
+
+  getToken() {
+    return window.localStorage['bombonica-token'];
   };
 
   isLoggedIn() {
