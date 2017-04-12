@@ -17,6 +17,18 @@
         <option *ngFor="let contact of contacts" [value]="contact._id">{{contact.name}}</option>
       </select>
     </div>
+    <div class="form-group">
+      <label for="order-date">Date</label>
+      <input class="form-control" type="date" name="order-date" [(ngModel)]="order.date"/>
+    </div>
+    <div class="form-group">
+      <label for="order-event">Event</label>
+      <select class="form-control"  id="event"
+              [(ngModel)]="order.event" name="order-event">
+        <option *ngFor="let event of events" [value]="event.id">{{event.label}}</option>
+      </select>
+    </div>
+    <image-input [activeColor]="'orangered'" [baseColor]="'lightgray'"></image-input>
     <button class="btn btn-primary" *ngIf="!order._id" (click)="createOrder(order)">Create</button>
     <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(order)">Update</button>
     <button class="btn btn-danger" *ngIf="order._id" (click)="deleteOrder(order._id)">Delete</button>

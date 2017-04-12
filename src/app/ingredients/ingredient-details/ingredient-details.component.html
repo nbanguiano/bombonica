@@ -1,3 +1,28 @@
-<p>
-  ingredient-detail works!
-</p>
+<div *ngIf="ingredient" class="row">
+  <div class="col-md-12">
+    <h2 *ngIf="ingredient._id">Ingredient Details</h2>
+    <h2 *ngIf="!ingredient._id">New Ingredient</h2>
+  </div>
+</div>
+<div *ngIf="ingredient" class="row">
+  <form class="col-md-12">
+    <div class="form-group">
+      <label for="ingredient-name">Nombre</label>
+      <input class="form-control" name="ingredient-name" [(ngModel)]="ingredient.name" placeholder="Name"/>
+    </div>
+    <div class="form-group">
+      <label for="ingredient-meassure">Medida</label>
+      <select class="form-control"  id="meassure"
+              [(ngModel)]="ingredient.meassure" name="ingredient-meassure">
+        <option *ngFor="let meassure of meassures" [value]="meassure.id">{{meassure.label}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="ingredient-cost">Coste (€)</label>
+      <input class="form-control" type="cost" name="ingredient-cost" [(ngModel)]="ingredient.cost"/>
+    </div>
+    <button class="btn btn-primary" *ngIf="!ingredient._id" (click)="createIngredient(ingredient)">Create</button>
+    <button class="btn btn-info" *ngIf="ingredient._id" (click)="updateIngredient(ingredient)">Upcost</button>
+    <button class="btn btn-danger" *ngIf="ingredient._id" (click)="deleteIngredient(ingredient._id)">Delete</button>
+  </form>
+</div>

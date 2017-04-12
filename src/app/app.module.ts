@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { RoutingModule } from './routing/routing.module';
@@ -21,6 +21,9 @@ import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ImageInputComponent } from './image-input/image-input.component';
+
+import { CalendarModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -34,15 +37,23 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RecipeListComponent,
     RecipeDetailsComponent,
     SigninComponent,
-    DashboardComponent
+    DashboardComponent,
+    ImageInputComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    RoutingModule
+    RoutingModule,
+    CalendarModule
   ],
-  providers: [WindowRefService, UserService, CanActivateGuard, CanActivateChildGuard],
+  providers: [
+    WindowRefService,
+    UserService,
+    CanActivateGuard,
+    CanActivateChildGuard
+  ],
   bootstrap: [AppComponent]
 })
 

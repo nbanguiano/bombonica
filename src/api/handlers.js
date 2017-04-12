@@ -1,8 +1,8 @@
 module.exports = {
 
-  getAll: function(modelPath, request, response) {
+  getAll: function(modelPath, request, response, options) {
     var Model = require(modelPath);
-    Model.find(function(error, docs){
+    Model.find().sort(options.sort).exec(function(error, docs){
       if (error){ 
         this._handleError(response, error.message, "Failed to get " + Model.name + ".");
       }

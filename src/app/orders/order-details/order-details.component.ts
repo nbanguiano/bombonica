@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+//import { CalendarModule } from 'primeng/primeng';
+
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { OrderService } from '../order.service';
@@ -22,6 +24,14 @@ export class OrderDetailsComponent {
   deleteHandler: Function;
 
   constructor(private orderService: OrderService) {}
+
+  events = [
+    {id: 1, label: "Cumpleaños"},
+    {id: 2, label: "Aniversario"},
+    {id: 3, label: "Matrimonio"},
+    {id: 4, label: "Nacimiento"},
+    {id: 5, label: "Otro"}
+  ];
 
   createOrder(order: Order) {
     this.orderService.createOrder(order)

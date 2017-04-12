@@ -11,16 +11,15 @@
       <input class="form-control" name="contact-name" [(ngModel)]="contact.name" placeholder="Name"/>
     </div>
     <div class="form-group">
-      <label for="contact-email">Email</label>
-      <input class="form-control" name="contact-email" [(ngModel)]="contact.email" placeholder="support@mlab.com"/>
+      <label for="contact-source">Source</label>
+      <select class="form-control"  id="source"
+              [(ngModel)]="contact.source" name="contact-source">
+        <option *ngFor="let source of contactSources" [value]="source.id">{{source.label}}</option>
+      </select>
     </div>
     <div class="form-group">
-      <label for="contact-phone-mobile">Mobile</label>
-      <input class="form-control" name="contact-phone-mobile" [(ngModel)]="contact.phone.mobile" placeholder="1234567890"/>
-    </div>
-    <div class="form-group">
-      <label for="contact-phone-work">Work</label>
-      <input class="form-control" name="contact-phone-work" [(ngModel)]="contact.phone.work" placeholder="0123456789"/>
+      <label for="contact-comment">Comment</label>
+      <input class="form-control" name="contact-comment" [(ngModel)]="contact.comment"/>
     </div>
     <button class="btn btn-primary" *ngIf="!contact._id" (click)="createContact(contact)">Create</button>
     <button class="btn btn-info" *ngIf="contact._id" (click)="updateContact(contact)">Update</button>

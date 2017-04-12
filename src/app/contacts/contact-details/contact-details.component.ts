@@ -21,6 +21,13 @@ export class ContactDetailsComponent {
 
   constructor (private contactService: ContactService) {}
 
+  contactSources = [
+    {id: 1, label: "Referencia"},
+    {id: 2, label: "Wallapop"},
+    {id: 3, label: "Facebook"},
+    {id: 4, label: "Otros"}
+  ];
+
   createContact(contact: Contact) {
     this.contactService.createContact(contact).then((newContact: Contact) => {
       this.createHandler(newContact);

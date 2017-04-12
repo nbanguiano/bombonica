@@ -34,11 +34,13 @@
     "core-js": "^2.4.1",
     "express": "^4.15.2",
     "express-jwt": "^5.1.0",
+    "font-awesome": "^4.7.0",
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.25",
     "mongoose": "^4.9.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "primeng": "^2.0.6",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

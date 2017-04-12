@@ -30,15 +30,7 @@ export class OrderListComponent implements OnInit {
     this.contactService
         .getContacts()
         .then((contacts: Contact[]) => {
-          this.contacts = contacts.map((contact) => {
-            if (!contact.phone) {
-              contact.phone = {
-                mobile: '',
-                work: ''
-              }
-            }
-            return contact;
-          });
+          this.contacts = contacts;
         });
   }
 
@@ -55,7 +47,11 @@ export class OrderListComponent implements OnInit {
   createNewOrder() {
     var order: Order = {
       name: '',
-      contactId: ''
+      contactId: '',
+      recipeId: '',
+      event: '',
+      price: 0,
+      date: ''
     };
     // By default, a newly-created contact will have the selected state.
     this.selectOrder(order);

@@ -6,7 +6,7 @@
         *ngFor="let order of orders"
         (click)="selectOrder(order)"
         [class.active]="order === selectedOrder">
-        {{order.name}}
+        {{order.name}} | {{order.date}}
       </li>
     </ul>
     <button class="btn btn-warning" (click)="createNewOrder()">New</button>

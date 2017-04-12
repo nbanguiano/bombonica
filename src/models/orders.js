@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 
 var OrderSchema = new Schema({
   name: {type:String, required:true},
-  contactId: {type:String}
+  contactId: {type:String},
+  event: {type:String},
+  price: {type:Number},
+  date: {type:String}
 });
 
 module.exports = mongoose.model('Orders', OrderSchema);

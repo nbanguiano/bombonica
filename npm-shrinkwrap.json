@@ -1594,6 +1594,11 @@
       "from": "flatten@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/flatten/-/flatten-1.0.2.tgz"
     },
+    "font-awesome": {
+      "version": "4.7.0",
+      "from": "font-awesome@latest",
+      "resolved": "https://registry.npmjs.org/font-awesome/-/font-awesome-4.7.0.tgz"
+    },
     "for-in": {
       "version": "1.0.2",
       "from": "for-in@>=1.0.1 <2.0.0",
@@ -4184,6 +4189,11 @@
       "version": "2.0.3",
       "from": "pretty-error@>=2.0.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/pretty-error/-/pretty-error-2.0.3.tgz"
+    },
+    "primeng": {
+      "version": "2.0.6",
+      "from": "primeng@latest",
+      "resolved": "https://registry.npmjs.org/primeng/-/primeng-2.0.6.tgz"
     },
     "process": {
       "version": "0.11.9",
