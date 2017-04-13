@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Recipe } from './recipe';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
+import { Recipe } from './recipe';
 import { UserService } from '../common/user.service';
 
 @Injectable()
@@ -27,7 +27,6 @@ export class RecipeService {
 
   // post("/api/recipes")
   createRecipe(newRecipe: Recipe): Promise<Recipe> {
-    console.log(newRecipe);
     return this.http.post(this.signUri(this.recipesUrl), newRecipe)
                .toPromise()
                .then(response => response.json() as Recipe)

@@ -50,7 +50,7 @@ module.exports = {
         this._handleError(response, error.message, "Failed to get " + Model.name + ".");
       }
       else {
-        response.status(200).json({ message: Model.name + "Bear updated" });
+        response.status(200).json({ message: Model.name + " updated."});
       };
     });
   },

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Recipe } from '../recipe';
 import { Ingredient } from '../../ingredients/ingredient';
@@ -9,9 +9,12 @@ import { RecipeService } from '../recipe.service';
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css']
 })
-export class RecipeDetailsComponent implements OnInit {
+export class RecipeDetailsComponent {
   @Input()
   recipe: Recipe;
+
+  @Input('group')
+  myForm: FormGroup;
 
   @Input()
   ingredients: Ingredient[];
@@ -23,7 +26,7 @@ export class RecipeDetailsComponent implements OnInit {
   @Input()
   deleteHandler: Function;
 
-  public myForm: FormGroup;
+//  public myForm: FormGroup;
 
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService) {}
@@ -42,22 +45,7 @@ export class RecipeDetailsComponent implements OnInit {
     {id: 4, label: "Familia"},
     {id: 5, label: "Otro"}
   ];
-
-  ngOnInit() {
-    this.myForm = this._fb.group({
-      name: [''],
-      type: [''],
-      source: [''],
-      ingredients: this._fb.array([]),
-      cost: 0
-    });
-
-//    this.myForm = this._fb.group(this.recipe);
-
-    // add ingredient
-    this.addIngredients();
-  }
-
+  
   initIngredient() {
     return this._fb.group({
       name: [''],
