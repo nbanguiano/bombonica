@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var RecipeSchema = new Schema({
   name: {type:String, required:true},
-  ingredients: {type:Array[]},
+  ingredients: {type:Array, "default":[]},
   source: {type:String},
   type: {type:String},
   cost: {type:Number}

@@ -1,3 +1,23 @@
-<p>
-  recipe-list works!
-</p>
+<div class="row">
+  <div class="col-md-5">
+    <h2>Recetas</h2>
+    <ul class="list-group">
+      <li class="list-group-item"
+        *ngFor="let recipe of recipes"
+        (click)="selectRecipe(recipe)"
+        [class.active]="recipe === selectedRecipe">
+        {{recipe.name}} | {{recipe.cost}}
+      </li>
+    </ul>
+    <button class="btn btn-warning" (click)="createNewRecipe()">New</button>
+  </div>
+  <div class="col-md-5 col-md-offset-2">
+    <recipe-details
+      [recipe]="selectedRecipe"
+      [ingredients]="ingredients"
+      [createHandler]="addRecipe"
+      [updateHandler]="updateRecipe"
+      [deleteHandler]="deleteRecipe">
+    </recipe-details>
+  </div>
+</div>

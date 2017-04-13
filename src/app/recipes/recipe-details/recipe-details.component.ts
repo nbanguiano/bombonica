@@ -1,6 +1,8 @@
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Recipe } from '../recipe';
+import { Ingredient } from '../../ingredients/ingredient';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'recipe-details',
@@ -8,15 +10,49 @@ import { Recipe } from '../recipe';
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent implements OnInit {
+  @Input()
+  recipe: Recipe;
+
+  @Input()
+  ingredients: Ingredient[];
+
+  @Input()
+  createHandler: Function;
+  @Input()
+  updateHandler: Function;
+  @Input()
+  deleteHandler: Function;
+
   public myForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {}
+  constructor(private _fb: FormBuilder,
+              private recipeService: RecipeService) {}
+
+  types = [
+    {id: 1, label: "Normal"},
+    {id: 2, label: "Saludable"},
+    {id: 3, label: "Sin huevo"},
+    {id: 4, label: "Otro"}
+  ];
+
+  sources = [
+    {id: 1, label: "Curso"},
+    {id: 2, label: "Internet"},
+    {id: 3, label: "Libro"},
+    {id: 4, label: "Familia"},
+    {id: 5, label: "Otro"}
+  ];
 
   ngOnInit() {
     this.myForm = this._fb.group({
-      name: '',
-      ingredients: this._fb.array([])
+      name: [''],
+      type: [''],
+      source: [''],
+      ingredients: this._fb.array([]),
+      cost: 0
     });
+
+//    this.myForm = this._fb.group(this.recipe);
 
     // add ingredient
     this.addIngredients();
@@ -24,15 +60,15 @@ export class RecipeDetailsComponent implements OnInit {
 
   initIngredient() {
     return this._fb.group({
-      name: '',
-      qty: 0
+      name: [''],
+      qty: [0],
+      cost: [0]
     });
   }
 
   addIngredients() {
     const control = <FormArray>this.myForm.controls['ingredients'];
     const ingredientCtrl = this.initIngredient();
-
     control.push(ingredientCtrl);
   }
 
@@ -41,10 +77,25 @@ export class RecipeDetailsComponent implements OnInit {
     control.removeAt(i);
   }
 
-  save(model: Recipe) {
-      // call API to save
-      // ...
-      console.log(model);
+  createRecipe(recipe: Recipe) {
+    this.recipeService.createRecipe(recipe)
+                      .then((newRecipe: Recipe) => {
+                        this.createHandler(newRecipe);
+                      });
+  }
+
+  updateRecipe(recipe: Recipe) {
+    this.recipeService.updateRecipe(recipe)
+                      .then((updatedRecipe: Recipe) => {
+                        this.updateHandler(updatedRecipe);
+                      });
+  }
+
+  deleteRecipe(recipeId: String) {
+    this.recipeService.deleteRecipe(recipeId)
+                      .then((deletedRecipeId: String) => {
+                        this.deleteHandler(deletedRecipeId);
+                      });
   }
 
 }

@@ -19,6 +19,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
+import { IngredientInputComponent } from './recipes/recipe-details/ingredient-input.component';
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ImageInputComponent } from './image-input/image-input.component';
@@ -36,6 +37,7 @@ import { CalendarModule } from 'primeng/primeng';
     OrderDetailsComponent,
     RecipeListComponent,
     RecipeDetailsComponent,
+    IngredientInputComponent,
     SigninComponent,
     DashboardComponent,
     ImageInputComponent
