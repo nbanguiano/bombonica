@@ -3,13 +3,24 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Recipe } from './recipe';
+import { Ingredient } from '../ingredients/ingredient';
 import { UserService } from '../common/user.service';
+import { IngredientService } from '../ingredients/ingredient.service';
 
 @Injectable()
 export class RecipeService {
 
+  ingredients: Ingredient[];
+
   constructor(private http: Http,
-              private user: UserService) {}
+              private user: UserService,
+              private ingredientService: IngredientService) {
+                // Initialize ingredients from database
+                this.ingredientService.getIngredients()
+                    .then((ingredients: Ingredient[]) => {
+                      this.ingredients = ingredients;
+                    });
+              }
 
   private recipesUrl = '/api/recipes';
 
@@ -27,16 +38,24 @@ export class RecipeService {
 
   // post("/api/recipes")
   createRecipe(newRecipe: Recipe): Promise<Recipe> {
+    newRecipe = this.calculateRecipeCost(newRecipe);
     return this.http.post(this.signUri(this.recipesUrl), newRecipe)
                .toPromise()
                .then(response => response.json() as Recipe)
                .catch(this.handleError);
   }
 
-  // get("/api/recipes/:id") endpoint not used by the app
+  // get("/api/recipes/:id")
+  getOneRecipe(recipeId: String): Promise<Recipe>{
+    return this.http.get(this.signUri(this.recipesUrl + '/' + recipeId))
+               .toPromise()
+               .then(response => response.json() as Recipe)
+               .catch(this.handleError);
+  }
 
   // put("/api/recipes/:id")
   updateRecipe(putRecipe: Recipe): Promise<Recipe> {
+    putRecipe = this.calculateRecipeCost(putRecipe);
     var putUrl = this.signUri(this.recipesUrl + '/' + putRecipe._id);
     return this.http.put(putUrl, putRecipe)
                .toPromise()
@@ -50,6 +69,36 @@ export class RecipeService {
                .toPromise()
                .then(response => response.json() as String)
                .catch(this.handleError);
+  }
+
+  private calculateRecipeCost(recipe: Recipe) {
+    recipe.cost = 0;
+    recipe.ingredients.forEach(userIngredient => {
+      this.ingredients.forEach(dbIngredient => {
+        if (userIngredient.id === dbIngredient._id) {
+          recipe.cost += (dbIngredient.cost * userIngredient.qty);
+        };
+      });
+    });
+    return recipe;
+  }
+
+  updateAllCosts() {
+    // Mainly intended to be called from the ingredient-detail component
+    //   when updating an ingredient, always suspecting that
+    //   the price of the ingredient might have changed.
+    // This would update all ingredients used by this service
+    //   and then update each reacipe, which in turn is recalculating the costs.
+    this.ingredientService.getIngredients()
+        .then((ingredients: Ingredient[]) => {
+          this.ingredients = ingredients;
+          this.getRecipes()
+              .then((recipes: Recipe[]) => {
+                recipes.forEach((recipe: Recipe) => {
+                  this.updateRecipe(recipe);
+                });
+              });
+        });
   }
 
   private handleError (error: any) {

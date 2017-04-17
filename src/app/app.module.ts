@@ -7,6 +7,7 @@ import { RoutingModule } from './routing/routing.module';
 
 import { WindowRefService } from './common/window-ref.service';
 import { UserService } from './common/user.service';
+import { IngredientService } from './ingredients/ingredient.service';
 import { CanActivateGuard } from './common/can-activate-guard.service';
 import { CanActivateChildGuard } from './common/can-activate-child-guard.service';
 
@@ -53,6 +54,7 @@ import { CalendarModule } from 'primeng/primeng';
   providers: [
     WindowRefService,
     UserService,
+    IngredientService,
     CanActivateGuard,
     CanActivateChildGuard
   ],

@@ -33,7 +33,13 @@ export class IngredientService {
                .catch(this.handleError);
   }
 
-  // get("/api/ingredients/:id") endpoint not used by the app
+  // get("/api/ingredients/:id")
+  getOneIngredient(ingredientId: String): Promise<Ingredient>{
+    return this.http.get(this.signUri(this.ingredientsUrl + '/' + ingredientId))
+               .toPromise()
+               .then(response => response.json() as Ingredient)
+               .catch(this.handleError);
+  }
 
   // put("/api/ingredients/:id")
   updateIngredient(putIngredient: Ingredient): Promise<Ingredient> {

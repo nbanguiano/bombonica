@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Ingredient } from '../ingredient';
 import { IngredientService } from '../ingredient.service';
+import { RecipeService } from '../../recipes/recipe.service';
 
 @Component({
   selector: 'ingredient-details',
   templateUrl: './ingredient-details.component.html',
-  styleUrls: ['./ingredient-details.component.css']
+  styleUrls: ['./ingredient-details.component.css'],
+  providers: [RecipeService]
 })
 
 export class IngredientDetailsComponent {
@@ -19,7 +21,8 @@ export class IngredientDetailsComponent {
   @Input()
   deleteHandler: Function;
 
-  constructor(private ingredientService: IngredientService) {}
+  constructor(private ingredientService: IngredientService,
+              private recipeService: RecipeService) {}
 
   meassures = [
     {id: "Ud.", label: "Unidad"},
@@ -31,23 +34,25 @@ export class IngredientDetailsComponent {
 
   createIngredient(ingredient: Ingredient) {
     this.ingredientService.createIngredient(ingredient)
-                    .then((newIngredient: Ingredient) => {
-                      this.createHandler(newIngredient);
-                    });
+                          .then((newIngredient: Ingredient) => {
+                            this.createHandler(newIngredient);
+                          });
   }
 
   updateIngredient(ingredient: Ingredient) {
     this.ingredientService.updateIngredient(ingredient)
-                    .then((updatedIngredient: Ingredient) => {
-                      this.updateHandler(updatedIngredient);
-                    });
+                          .then((updatedIngredient: Ingredient) => {
+                            this.recipeService.updateAllCosts();
+                            this.updateHandler(updatedIngredient);
+                          });
   }
 
   deleteIngredient(ingredientId: String) {
     this.ingredientService.deleteIngredient(ingredientId)
-                     .then((deletedIngredientId: String) => {
-                      this.deleteHandler(deletedIngredientId);
-                     });
+                          .then((deletedIngredientId: String) => {
+                            this.recipeService.updateAllCosts();
+                            this.deleteHandler(deletedIngredientId);
+                          });
   }
 
 }

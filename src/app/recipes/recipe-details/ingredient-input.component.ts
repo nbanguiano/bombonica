@@ -7,9 +7,10 @@ import { Ingredient } from '../../ingredients/ingredient';
     templateUrl: 'ingredient-input.component.html'
 })
 export class IngredientInputComponent {
-  @Input('group')
+  @Input('ingredientForm')
   public ingredientForm: FormGroup;
 
   @Input()
   ingredients: Ingredient[];
+
 }

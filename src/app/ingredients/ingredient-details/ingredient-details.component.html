@@ -1,7 +1,7 @@
 <div *ngIf="ingredient" class="row">
   <div class="col-md-12">
-    <h2 *ngIf="ingredient._id">Ingredient Details</h2>
-    <h2 *ngIf="!ingredient._id">New Ingredient</h2>
+    <h2 *ngIf="ingredient._id">Detalles del ingrediente</h2>
+    <h2 *ngIf="!ingredient._id">Nuevo ingrediente</h2>
   </div>
 </div>
 <div *ngIf="ingredient" class="row">
@@ -21,8 +21,8 @@
       <label for="ingredient-cost">Coste (€)</label>
       <input class="form-control" type="cost" name="ingredient-cost" [(ngModel)]="ingredient.cost"/>
     </div>
-    <button class="btn btn-primary" *ngIf="!ingredient._id" (click)="createIngredient(ingredient)">Create</button>
-    <button class="btn btn-info" *ngIf="ingredient._id" (click)="updateIngredient(ingredient)">Upcost</button>
-    <button class="btn btn-danger" *ngIf="ingredient._id" (click)="deleteIngredient(ingredient._id)">Delete</button>
+    <button class="btn btn-primary" *ngIf="!ingredient._id" (click)="createIngredient(ingredient)">Crear</button>
+    <button class="btn btn-info" *ngIf="ingredient._id" (click)="updateIngredient(ingredient)">Actualizar</button>
+    <button class="btn btn-danger" *ngIf="ingredient._id" (click)="deleteIngredient(ingredient._id)">Eliminar</button>
   </form>
 </div>

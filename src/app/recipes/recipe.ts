@@ -8,7 +8,6 @@ export class Recipe {
 }
 
 export class IngredientInput {
-  name: string;
+  id: string;
   qty: number;
-  cost: number;
 }

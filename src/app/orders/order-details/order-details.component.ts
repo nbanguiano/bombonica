@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
+import { Recipe } from '../../recipes/recipe';
 import { OrderService } from '../order.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class OrderDetailsComponent {
   order: Order;
   @Input()
   contacts: Contact[];
+  @Input()
+  recipes: Recipe[];
 
   @Input()
   createHandler: Function;

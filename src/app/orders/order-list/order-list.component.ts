@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
+import { Recipe } from '../../recipes/recipe';
 import { OrderService } from '../order.service';
 import { ContactService } from '../../contacts/contact.service';
+import { RecipeService } from '../../recipes/recipe.service';
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 
 @Component({
   selector: 'order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css'],
-  providers: [OrderService, ContactService]
+  providers: [OrderService, ContactService, RecipeService]
 })
 
 export class OrderListComponent implements OnInit {
@@ -19,8 +21,11 @@ export class OrderListComponent implements OnInit {
 
   contacts: Contact[]
 
+  recipes: Recipe[]
+
   constructor(private orderService: OrderService, 
-              private contactService: ContactService) {}
+              private contactService: ContactService,
+              private recipeService: RecipeService) {}
 
   ngOnInit() {
     this.orderService
@@ -31,6 +36,12 @@ export class OrderListComponent implements OnInit {
         .getContacts()
         .then((contacts: Contact[]) => {
           this.contacts = contacts;
+        });
+    
+    this.recipeService
+        .getRecipes()
+        .then((recipes: Recipe[]) => {
+          this.recipes = recipes;
         });
   }
 

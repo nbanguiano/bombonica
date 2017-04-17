@@ -5,7 +5,7 @@
   </div>
 </div>
 <div *ngIf="recipe" class="row">
-  <form [formGroup]="myForm" class="col-md-12">
+  <form [formGroup]="recipeForm" class="col-md-12">
     <div class="form-group">
       <label for="recipe-name">Nombre</label>
       <input class="form-control" name="recipe-name" formControlName="name"/>
@@ -14,26 +14,26 @@
       <label for="recipe-type">Tipo</label>
       <select class="form-control"  id="type"
               formControlName="type" name="recipe-type">
-        <option *ngFor="let type of types" [value]="type.id">{{type.label}}</option>
+        <option *ngFor="let type of types" [value]="type.label">{{type.label}}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="recipe-source">Fuente</label>
       <select class="form-control"  id="source"
               formControlName="source" name="recipe-source">
-        <option *ngFor="let source of sources" [value]="source.id">{{source.label}}</option>
+        <option *ngFor="let source of sources" [value]="source.label">{{source.label}}</option>
       </select>
     </div>
     <!--ingredients-->
     <div formArrayName="ingredients">
-      <div *ngFor="let Ingredient of myForm.controls.ingredients.controls; let i=index" class="panel panel-default">
+      <div *ngFor="let Ingredient of recipeForm.controls.ingredients.controls; let i=index" class="panel panel-default">
         <div class="panel-heading">
           <span>Ingrediente {{i + 1}}</span>
-          <span class="glyphicon glyphicon-remove pull-right" *ngIf="myForm.controls.ingredients.controls.length > 1" (click)="removeIngredient(i)"></span>
+          <span class="glyphicon glyphicon-remove pull-right" *ngIf="recipeForm.controls.ingredients.controls.length > 1" (click)="removeIngredient(i)"></span>
         </div>
         <div class="panel-body" [formGroupName]="i">
           <ingredient-input
-            [group]="myForm.controls.ingredients.controls[i]"
+            [ingredientForm]="recipeForm.controls.ingredients.controls[i]"
             [ingredients]="ingredients">
           </ingredient-input>
         </div>
@@ -49,11 +49,11 @@
     <div class="clearfix"></div>
 
     <div class="margin-20">
-      <div>myForm details:-</div>
-      <pre>form value: <br>{{myForm.value | json}}</pre>
+      <div>recipeForm details:-</div>
+      <pre>form value: <br>{{recipeForm.value | json}}</pre>
     </div>
-    <button class="btn btn-primary" *ngIf="!recipe._id" (click)="createRecipe(myForm.value)">Create</button>
-    <button class="btn btn-info" *ngIf="recipe._id" (click)="updateRecipe(myForm.value)">Update</button>
-    <button class="btn btn-danger" *ngIf="recipe._id" (click)="deleteRecipe(recipe._id)">Delete</button>
+    <button class="btn btn-primary" *ngIf="!recipe._id" (click)="createRecipe(recipeForm.value)">Crear</button>
+    <button class="btn btn-info" *ngIf="recipe._id" (click)="updateRecipe(recipeForm.value)">Actualizar</button>
+    <button class="btn btn-danger" *ngIf="recipe._id" (click)="deleteRecipe(recipe._id)">Eliminar</button>
   </form>
 </div>

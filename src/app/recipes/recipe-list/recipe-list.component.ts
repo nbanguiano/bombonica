@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Recipe } from '../recipe';
+import { Recipe, IngredientInput } from '../recipe';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from '../../ingredients/ingredient';
 import { IngredientService } from '../../ingredients/ingredient.service';
@@ -21,7 +21,9 @@ export class RecipeListComponent implements OnInit {
   // To @Input into the recipes details, and feed the ingredients dropdown
   ingredients: Ingredient[]
   // To generate the populated FormGroup to be displayed in the recipe details
-  myForm: FormGroup;
+  recipeForm: FormGroup;
+
+  // private listenerSet = false;
 
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService,
@@ -35,7 +37,7 @@ export class RecipeListComponent implements OnInit {
     this.ingredientService
         .getIngredients()
         .then((ingredients: Ingredient[]) => {this.ingredients = ingredients});
- }
+  }
 
 
   private getIndexOfRecipe = (recipeId: String) => {
@@ -49,7 +51,7 @@ export class RecipeListComponent implements OnInit {
     this.selectedRecipe = recipe;
     if (recipe) {
       // Generate a FormGroup based on this recipe.
-      this.myForm = this._fb.group({
+      this.recipeForm = this._fb.group({
         _id: [(recipe._id)?(recipe._id):null],
         name: [recipe.name],
         type: [recipe.type],
@@ -58,20 +60,39 @@ export class RecipeListComponent implements OnInit {
         cost: recipe.cost
       });
       // Add all the ingredients to the form group.
-      const control = <FormArray>this.myForm.controls['ingredients'];
+      const control = <FormArray>this.recipeForm.controls['ingredients'];
       recipe.ingredients.forEach(ingredient => {
         control.push(this._fb.group(ingredient));  
       });
     }
+    
+    /* subscribe to ingredients value changes */
+    /*
+    if (!this.listenerSet) {
+      this.recipeForm.controls['ingredients'].valueChanges.subscribe(x => {
+        this.recipeForm.patchValue({cost: 0});
+        x.forEach(userIngredient => {
+          if (userIngredient.id !== '') {
+            this.ingredients.forEach(dbIngredient => {
+              if (userIngredient.id === dbIngredient._id) {
+                this.recipeForm.patchValue({cost: this.recipeForm.value.cost + (dbIngredient.cost * userIngredient.qty)});
+              };
+            })  
+          };
+        });
+        this.listenerSet = true;
+      });
+    }
+    */
+
   }
 
   createNewRecipe() {
     var recipe: Recipe = {
       name: '',
       ingredients: [{
-        name: '',
-        qty: 0,
-        cost: 0
+        id: '',
+        qty: 0
       }],
       type: '',
       cost: 0,
