@@ -13,7 +13,7 @@ require("./src/models/db");
 require("./src/auth/passport");
 // Define our router
 var router = require("./src/api/router");
-var authController = require('./src/auth/authentication');
+var authController = require("./src/auth/authentication");
 
 // Instantiate the app
 var app = express();
@@ -43,7 +43,7 @@ app.get("/me",function(req,res){
 });
 
 // This will let the rendring of any other endpoint to the front-end based on the client state.
-// It will send angular's compiled index.html, where the app state will be resolved
+// It will send the compiled index.html, where the app state will be resolved
 // or properly fail accordingly
 app.get("/*",function(req,res){
   res.sendFile(distDir + "index.html");

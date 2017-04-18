@@ -1,10 +1,14 @@
 var express = require("express");
 var router = express.Router();
+
 var jwt = require("express-jwt");
 var auth = jwt({
   secret: process.env.SECRET,
   userProperty: "payload"
 });
+
+var multer  = require("multer");
+var multerUpload = multer({ dest: "./portfolio/images" });
 
 var apiHandlers = require("./handlers");
 var auth = require("../auth/authentication").apiauth;
@@ -74,6 +78,31 @@ router.post(endPoints.recipes.raw, (req, res) => apiHandlers.createItem(modelPat
 router.get(endPoints.recipes.byid, (req, res) => apiHandlers.getItem(modelPaths.recipes, req, res));
 router.put(endPoints.recipes.byid, (req, res) => apiHandlers.updateItem(modelPaths.recipes, req, res));
 router.delete(endPoints.recipes.byid, (req, res) => apiHandlers.deleteItem(modelPaths.recipes, req, res));
+
+
+// Set the end point handling file uploads
+router.post("/portfolio/upload", multerUpload.single("portfolio"), function (req, res) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+  if (!req.file.filename) {
+    this._handleError(response, "Invalid input", "Attribute 'filename' not provided.", 400);
+  };
+
+  var ImageModel = require("../models/images");
+  var newImage = new ImageModel(req.file);
+  newImage.contactId = req.body.contactId;
+  newImage.orderId = req.body.orderId;
+  newImage.createDate = new Date();
+  newImage.save(function(error, doc) {
+    if (error) {
+      this._handleError(res, error.message, "Failed to create new image.");
+    }
+    else {
+      res.status(201).json(doc);
+    }
+  });
+});
+
 
 console.log("API end points ready");
 
