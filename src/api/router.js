@@ -39,7 +39,7 @@ var endPoints = {
   orders: {raw: "/orders", byid: "/orders/:id"},
   ingredients: {raw: "/ingredients", byid: "/ingredients/:id"},
   recipes: {raw: "/recipes", byid: "/recipes/:id"},
-  images: {raw: "/images", byid: "/imgaes/:id"}
+  images: {raw: "/images", byid: "/images/:id", byOrderId: "/images/byOrder/:orderId"}
 };
 
 // Require authentication for all API routes
@@ -94,7 +94,9 @@ router.put(endPoints.recipes.byid, (req, res) => apiHandlers.updateItem(modelPat
 router.delete(endPoints.recipes.byid, (req, res) => apiHandlers.deleteItem(modelPaths.recipes, req, res));
 
 
-// Set the end point handling file uploads
+//  - GET: finds all images
+//  - POST: creates new images and uploads them to the specified directory in multer settings
+router.get(endPoints.images.raw, (req, res) => apiHandlers.getAll(modelPaths.images, req, res, {sort:{createDate: 1}}));
 router.post(endPoints.images.raw, function (req, res, next) {
   multerUpload(req, res, function (err) {
     if (err) {
@@ -122,6 +124,10 @@ router.post(endPoints.images.raw, function (req, res, next) {
     res.status(201).json({files: req.files});
   });     
 });
+//  - GET: find images by orderId
+//  - DELETE: deletes image by id
+router.get(endPoints.images.byOrderId, (req, res) => apiHandlers.getItemsByAttr(modelPaths.images, req, res, "orderId"));
+router.delete(endPoints.images.byid, (req, res) => apiHandlers.deleteItem(modelPaths.images, req, res));
 
 
 console.log("API end points ready");

@@ -21,25 +21,17 @@ export class ImageService {
                .catch(this.handleError);
   }
 
-  // post("/api/images")
-  createImage(newImage: any): Promise<any> {
-    console.log(newImage);
-    return this.http.post(this.user.signUri(this.imagesUrl), newImage)
+  // post("/api/images") <- This is handled specially in image-input.component.ts in ImageInputComponent.upload()
+
+  // get("/api/images/byOrder/:orderId")
+  getImagesByOrder(orderId: String): Promise<Image[]>{
+    return this.http.get(this.user.signUri(this.imagesUrl + '/byOrder/' + orderId))
                .toPromise()
-               .then(response => response.json() as any)
+               .then(response => response.json() as Image[])
                .catch(this.handleError);
   }
 
-  // get("/api/images/:id") endpoint not used by the app
-
-  // put("/api/images/:id")
-  updateImage(putImage: Image): Promise<Image> {
-    var putUrl = this.user.signUri(this.imagesUrl + '/' + putImage._id);
-    return this.http.put(putUrl, putImage)
-               .toPromise()
-               .then(response => response.json() as Image)
-               .catch(this.handleError);
-  }
+  // put("/api/images/:id") <- No use-case to update images like this
 
   // delete("/api/images/:id")
   deleteImage(delImageId: String): Promise<String> {

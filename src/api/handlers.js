@@ -1,5 +1,11 @@
 module.exports = {
 
+
+  _handleError: function(response, reason, message, code) {
+    console.log("ERROR: " + reason);
+    response.status(code || 500).json({"error": message});
+  },
+
   getAll: function(modelPath, request, response, options) {
     var Model = require(modelPath);
     Model.find().sort(options.sort).exec(function(error, docs){
@@ -43,6 +49,18 @@ module.exports = {
     });
   },
 
+  getItemsByAttr: function(modelPath, request, response, attrToQuery) {
+    var Model = require(modelPath);
+    Model.find().where(attrToQuery).equals(request.params[attrToQuery]).exec(function(error, doc) {
+      if (error) {
+        this._handleError(response, error.message, "Failed to get " + Model.name + ".");
+      }
+      else {
+        response.status(200).json(doc);
+      }
+    });
+  },
+
   updateItem: function(modelPath, request, response) {
     var Model = require(modelPath);
     Model.findOneAndUpdate({_id: request.params.id}, request.body, {}, function(error, doc) {
@@ -65,11 +83,6 @@ module.exports = {
         response.status(200).json(request.params.id);
       };
     });
-  },
-
-  _handleError: function(response, reason, message, code) {
-    console.log("ERROR: " + reason);
-    response.status(code || 500).json({"error": message});
   }
 
 }
