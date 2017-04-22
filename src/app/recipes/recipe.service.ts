@@ -24,13 +24,9 @@ export class RecipeService {
 
   private recipesUrl = '/api/recipes';
 
-  private signUri(uri) {
-    return uri + '?token=' + this.user.getToken();
-  }
-
   // get("/api/recipes")
   getRecipes(): Promise<Recipe[]>{
-    return this.http.get(this.signUri(this.recipesUrl))
+    return this.http.get(this.user.signUri(this.recipesUrl))
                .toPromise()
                .then(response => response.json() as Recipe[])
                .catch(this.handleError);
@@ -39,7 +35,7 @@ export class RecipeService {
   // post("/api/recipes")
   createRecipe(newRecipe: Recipe): Promise<Recipe> {
     newRecipe = this.calculateRecipeCost(newRecipe);
-    return this.http.post(this.signUri(this.recipesUrl), newRecipe)
+    return this.http.post(this.user.signUri(this.recipesUrl), newRecipe)
                .toPromise()
                .then(response => response.json() as Recipe)
                .catch(this.handleError);
@@ -47,7 +43,7 @@ export class RecipeService {
 
   // get("/api/recipes/:id")
   getOneRecipe(recipeId: String): Promise<Recipe>{
-    return this.http.get(this.signUri(this.recipesUrl + '/' + recipeId))
+    return this.http.get(this.user.signUri(this.recipesUrl + '/' + recipeId))
                .toPromise()
                .then(response => response.json() as Recipe)
                .catch(this.handleError);
@@ -56,7 +52,7 @@ export class RecipeService {
   // put("/api/recipes/:id")
   updateRecipe(putRecipe: Recipe): Promise<Recipe> {
     putRecipe = this.calculateRecipeCost(putRecipe);
-    var putUrl = this.signUri(this.recipesUrl + '/' + putRecipe._id);
+    var putUrl = this.user.signUri(this.recipesUrl + '/' + putRecipe._id);
     return this.http.put(putUrl, putRecipe)
                .toPromise()
                .then(response => response.json() as Recipe)
@@ -65,7 +61,7 @@ export class RecipeService {
 
   // delete("/api/recipes/:id")
   deleteRecipe(delRecipeId: String): Promise<String> {
-    return this.http.delete(this.signUri(this.recipesUrl + '/' + delRecipeId))
+    return this.http.delete(this.user.signUri(this.recipesUrl + '/' + delRecipeId))
                .toPromise()
                .then(response => response.json() as String)
                .catch(this.handleError);

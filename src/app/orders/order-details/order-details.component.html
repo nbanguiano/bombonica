@@ -35,9 +35,10 @@
         <option *ngFor="let event of events" [value]="event.id">{{event.label}}</option>
       </select>
     </div>
-    <image-input [activeColor]="'orangered'" [baseColor]="'lightgray'"></image-input>
     <button class="btn btn-primary" *ngIf="!order._id" (click)="createOrder(order)">Crear</button>
     <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(order)">Actualizar</button>
     <button class="btn btn-danger" *ngIf="order._id" (click)="deleteOrder(order._id)">Eliminar</button>
+    <br/><br/>
+    <image-input *ngIf="order._id" [orderId]="order._id"></image-input>
   </form>
 </div>

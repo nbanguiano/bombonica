@@ -5,7 +5,6 @@ var Schema = mongoose.Schema;
 var ImageSchema = new Schema({
   filename: {type:String, required:true},
   originalname: {type:String},
-  contactId: {type:String},
   orderId: {type:String},
   date: {type:String},
   encoding: {type:String},

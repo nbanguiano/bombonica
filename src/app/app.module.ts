@@ -11,6 +11,8 @@ import { IngredientService } from './ingredients/ingredient.service';
 import { CanActivateGuard } from './common/can-activate-guard.service';
 import { CanActivateChildGuard } from './common/can-activate-child-guard.service';
 
+import { FileSelectDirective } from 'ng2-file-upload';
+
 import { AppComponent } from './app.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
@@ -23,7 +25,7 @@ import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.
 import { IngredientInputComponent } from './recipes/recipe-details/ingredient-input.component';
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ImageInputComponent } from './image-input/image-input.component';
+import { ImageInputComponent } from './images/image-input/image-input.component';
 
 import { CalendarModule } from 'primeng/primeng';
 
@@ -41,7 +43,8 @@ import { CalendarModule } from 'primeng/primeng';
     IngredientInputComponent,
     SigninComponent,
     DashboardComponent,
-    ImageInputComponent
+    ImageInputComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,

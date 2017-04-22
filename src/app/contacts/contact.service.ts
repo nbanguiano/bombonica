@@ -13,13 +13,9 @@ export class ContactService {
 
   private contactsUrl = '/api/contacts';
 
-  private signUri(uri) {
-    return uri + '?token=' + this.user.getToken();
-  }
-
   // get('/api/contacts')
   getContacts(): Promise<Contact[]> {
-    return this.http.get(this.signUri(this.contactsUrl))
+    return this.http.get(this.user.signUri(this.contactsUrl))
                 .toPromise()
                 .then(response => response.json() as Contact[])
                 .catch(this.handleError);
@@ -27,7 +23,7 @@ export class ContactService {
 
   // post('/api/contacts')
   createContact(newContact: Contact): Promise<Contact> {
-    return this.http.post(this.signUri(this.contactsUrl), newContact)
+    return this.http.post(this.user.signUri(this.contactsUrl), newContact)
                 .toPromise()
                 .then(response => response.json() as Contact)
                 .catch(this.handleError);
@@ -37,7 +33,7 @@ export class ContactService {
 
   // put('/api/contacts/:id')
   updateContact(putContact: Contact): Promise<Contact> {
-    var putUrl = this.signUri(this.contactsUrl + '/' + putContact._id);
+    var putUrl = this.user.signUri(this.contactsUrl + '/' + putContact._id);
     return this.http.put(putUrl, putContact)
                 .toPromise()
                 .then(response => response.json() as Contact)
@@ -46,7 +42,7 @@ export class ContactService {
 
   // delete('/api/contacts/:id')
   deleteContact(delContactId: String): Promise<String> {
-    return this.http.delete(this.signUri(this.contactsUrl + '/' + delContactId))
+    return this.http.delete(this.user.signUri(this.contactsUrl + '/' + delContactId))
                 .toPromise()
                 .then(response => response.json() as String)
                 .catch(this.handleError);

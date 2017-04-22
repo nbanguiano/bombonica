@@ -7,25 +7,39 @@ var auth = jwt({
   userProperty: "payload"
 });
 
+var crypto = require("crypto");
+var mime = require("mime");
 var multer  = require("multer");
-var multerUpload = multer({ dest: "./portfolio/images" });
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./portfolio/images")
+  },
+  filename: function (req, file, callback) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      callback(null, raw.toString("hex") + Date.now() + "." + mime.extension(file.mimetype));
+    });
+  }
+});
+var multerUpload = multer({ storage: storage }).array("portfolio", 10);
 
 var apiHandlers = require("./handlers");
 var auth = require("../auth/authentication").apiauth;
 
-const modelPaths = {
+var modelPaths = {
   contacts: "../models/contacts",
   orders: "../models/orders",
   ingredients: "../models/ingredients",
-  recipes: "../models/recipes"
+  recipes: "../models/recipes",
+  images: "../models/images"
 };
 
 // The router is applied on top of te /api route, so only relative paths needed here
-const endPoints = {
+var endPoints = {
   contacts: {raw: "/contacts", byid: "/contacts/:id"},
   orders: {raw: "/orders", byid: "/orders/:id"},
   ingredients: {raw: "/ingredients", byid: "/ingredients/:id"},
-  recipes: {raw: "/recipes", byid: "/recipes/:id"}
+  recipes: {raw: "/recipes", byid: "/recipes/:id"},
+  images: {raw: "/images", byid: "/imgaes/:id"}
 };
 
 // Require authentication for all API routes
@@ -81,26 +95,32 @@ router.delete(endPoints.recipes.byid, (req, res) => apiHandlers.deleteItem(model
 
 
 // Set the end point handling file uploads
-router.post("/portfolio/upload", multerUpload.single("portfolio"), function (req, res) {
-  // req.files is array of `photos` files
-  // req.body will contain the text fields, if there were any
-  if (!req.file.filename) {
-    this._handleError(response, "Invalid input", "Attribute 'filename' not provided.", 400);
-  };
+router.post(endPoints.images.raw, function (req, res, next) {
+  multerUpload(req, res, function (err) {
+    if (err) {
+      // An error occurred when uploading
+      console.log(err);
+      return res.status(422).send("an Error occured")
+    }  
+    // No error occured.
+    req.files.forEach(function(file) {
+      if (!file.filename) {
+        this._handleError(res, "Invalid input", "Attribute 'filename' not provided.", 400);
+      };
 
-  var ImageModel = require("../models/images");
-  var newImage = new ImageModel(req.file);
-  newImage.contactId = req.body.contactId;
-  newImage.orderId = req.body.orderId;
-  newImage.createDate = new Date();
-  newImage.save(function(error, doc) {
-    if (error) {
-      this._handleError(res, error.message, "Failed to create new image.");
-    }
-    else {
-      res.status(201).json(doc);
-    }
-  });
+      var ImageModel = require(modelPaths.images);
+      var newImage = new ImageModel(file);
+      newImage.orderId = req.body.orderId;
+      newImage.createDate = new Date();
+      newImage.save(function(error, doc) {
+        if (error) {
+          this._handleError(res, error.message, "Failed to create new image.");
+        }
+        // else, everything went fine
+      });
+    }, this);
+    res.status(201).json({files: req.files});
+  });     
 });
 
 

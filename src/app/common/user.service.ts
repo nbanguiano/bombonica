@@ -80,4 +80,8 @@ export class UserService {
     window.localStorage.removeItem('bombonica-token');
   }
 
+  signUri(uri) {
+    return uri + '?token=' + this.getToken();
+  }
+
 }

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 //import { CalendarModule } from 'primeng/primeng';
+import { ImageInputComponent } from '../../images/image-input/image-input.component';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';

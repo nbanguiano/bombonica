@@ -13,13 +13,9 @@ export class OrderService {
 
   private ordersUrl = '/api/orders';
 
-  private signUri(uri) {
-    return uri + '?token=' + this.user.getToken();
-  }
-
   // get("/api/orders")
   getOrders(): Promise<Order[]>{
-    return this.http.get(this.signUri(this.ordersUrl))
+    return this.http.get(this.user.signUri(this.ordersUrl))
                .toPromise()
                .then(response => response.json() as Order[])
                .catch(this.handleError);
@@ -27,7 +23,7 @@ export class OrderService {
 
   // post("/api/orders")
   createOrder(newOrder: Order): Promise<Order> {
-    return this.http.post(this.signUri(this.ordersUrl), newOrder)
+    return this.http.post(this.user.signUri(this.ordersUrl), newOrder)
                .toPromise()
                .then(response => response.json() as Order)
                .catch(this.handleError);
@@ -37,7 +33,7 @@ export class OrderService {
 
   // put("/api/orders/:id")
   updateOrder(putOrder: Order): Promise<Order> {
-    var putUrl = this.signUri(this.ordersUrl + '/' + putOrder._id);
+    var putUrl = this.user.signUri(this.ordersUrl + '/' + putOrder._id);
     return this.http.put(putUrl, putOrder)
                .toPromise()
                .then(response => response.json() as Order)
@@ -46,7 +42,7 @@ export class OrderService {
 
   // delete("/api/orders/:id")
   deleteOrder(delOrderId: String): Promise<String> {
-    return this.http.delete(this.signUri(this.ordersUrl + '/' + delOrderId))
+    return this.http.delete(this.user.signUri(this.ordersUrl + '/' + delOrderId))
                .toPromise()
                .then(response => response.json() as String)
                .catch(this.handleError);
