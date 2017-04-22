@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
+import { Image } from '../../images/image';
 import { OrderService } from '../order.service';
 import { ContactService } from '../../contacts/contact.service';
 import { RecipeService } from '../../recipes/recipe.service';
+import { ImageService } from '../../images/image.service';
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 
 @Component({
   selector: 'order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css'],
-  providers: [OrderService, ContactService, RecipeService]
+  providers: [OrderService, ContactService, RecipeService, ImageService]
 })
 
 export class OrderListComponent implements OnInit {
@@ -23,9 +25,12 @@ export class OrderListComponent implements OnInit {
 
   recipes: Recipe[]
 
+  images: Image[]
+
   constructor(private orderService: OrderService, 
               private contactService: ContactService,
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              private imageService: ImageService) {}
 
   ngOnInit() {
     this.orderService
@@ -53,6 +58,18 @@ export class OrderListComponent implements OnInit {
 
   selectOrder(order: Order) {
     this.selectedOrder = order;
+    if (order) {
+      this.updateImageList(order._id);
+    }
+  }
+
+  updateImageList = (orderId: String) => {
+      this.imageService
+          .getImagesByOrder(orderId)
+          .then((images: Image[]) => {
+            this.images = images;
+            console.log(images);
+          })
   }
 
   createNewOrder() {

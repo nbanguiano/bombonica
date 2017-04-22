@@ -26,6 +26,7 @@ import { IngredientInputComponent } from './recipes/recipe-details/ingredient-in
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ImageInputComponent } from './images/image-input/image-input.component';
+import { ImageListComponent } from './images/image-list/image-list.component';
 
 import { CalendarModule } from 'primeng/primeng';
 
@@ -44,7 +45,8 @@ import { CalendarModule } from 'primeng/primeng';
     SigninComponent,
     DashboardComponent,
     ImageInputComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    ImageListComponent
   ],
   imports: [
     BrowserModule,

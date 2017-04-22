@@ -45,10 +45,13 @@ app.use(express.static(distDir));
 // Create link to Portfolio static directory
 var portfolioDir = __dirname + "/portfolio/";
 app.use(express.static(portfolioDir));
-
 // This is where the portfolio is displayed, also unprotected
 app.get("/me",function(req,res){
   res.sendFile(portfolioDir + "/index.html");
+});
+// And images to display within the CRM
+app.get("/images/:name",function(req,res){
+  res.sendFile(portfolioDir + req.url);
 });
 
 // This will let the rendring of any other endpoint to the front-end based on the client state.

@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, DoCheck } from '@angular/core';
 //import { CalendarModule } from 'primeng/primeng';
 import { ImageInputComponent } from '../../images/image-input/image-input.component';
+import { ImageListComponent } from '../../images/image-list/image-list.component';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
+import { Image } from '../../images/image';
 import { OrderService } from '../order.service';
 
 @Component({
@@ -19,6 +21,8 @@ export class OrderDetailsComponent {
   contacts: Contact[];
   @Input()
   recipes: Recipe[];
+  @Input()
+  images: Image[];
 
   @Input()
   createHandler: Function;
@@ -39,16 +43,16 @@ export class OrderDetailsComponent {
 
   createOrder(order: Order) {
     this.orderService.createOrder(order)
-                    .then((newOrder: Order) => {
-                      this.createHandler(newOrder);
-                    });
+                     .then((newOrder: Order) => {
+                       this.createHandler(newOrder);
+                     });
   }
 
   updateOrder(order: Order) {
     this.orderService.updateOrder(order)
-                    .then((updatedOrder: Order) => {
-                      this.updateHandler(updatedOrder);
-                    });
+                     .then((updatedOrder: Order) => {
+                       this.updateHandler(updatedOrder);
+                     });
   }
 
   deleteOrder(orderId: String) {

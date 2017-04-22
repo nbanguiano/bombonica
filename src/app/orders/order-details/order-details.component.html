@@ -39,6 +39,9 @@
     <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(order)">Actualizar</button>
     <button class="btn btn-danger" *ngIf="order._id" (click)="deleteOrder(order._id)">Eliminar</button>
     <br/><br/>
+    <hr/>
+    <h3>Fotos</h3>
+    <image-list *ngIf="order._id" [images]="images"></image-list>
     <image-input *ngIf="order._id" [orderId]="order._id"></image-input>
   </form>
 </div>

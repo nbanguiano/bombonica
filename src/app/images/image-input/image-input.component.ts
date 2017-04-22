@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { UserService } from '../../common/user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from '../../common/user.service';
     templateUrl: './image-input.component.html',
     styleUrls: ['./image-input.component.css']
 })
-export class ImageInputComponent implements OnInit {
+export class ImageInputComponent implements OnInit, OnChanges {
   @Input()
   orderId: String;
 
@@ -17,15 +17,20 @@ export class ImageInputComponent implements OnInit {
   private imageUploadUrl = '/api/images';
 
   // A new instance of the ng2 file uploader
-  public uploader:FileUploader = new FileUploader({url: this.user.signUri(this.imageUploadUrl), itemAlias: 'portfolio'});
+  uploader:FileUploader = new FileUploader({url: this.user.signUri(this.imageUploadUrl), itemAlias: 'portfolio'});
 
-  public upload = function(orderId: String){
+  upload(orderId: String){
     // Enrich request with the  orderId related to this image
     this.uploader.onBuildItemForm = (item, form) => {
       form.append('orderId', orderId);
     };
     // Do the actual upload. This is posting the request to the imageUploadUrl
     this.uploader.uploadAll();
+  }
+
+  ngOnChanges() {
+    // Clear queue
+    this.uploader.clearQueue();
   }
 
   ngOnInit() {
