@@ -7,6 +7,13 @@ var auth = jwt({
   userProperty: "payload"
 });
 
+const fs = require('fs');
+/*
+fs.unlink('/tmp/hello', (err) => {
+  if (err) throw err;
+  console.log('successfully deleted /tmp/hello');
+});
+*/
 var crypto = require("crypto");
 var mime = require("mime");
 var multer  = require("multer");
@@ -128,7 +135,6 @@ router.post(endPoints.images.raw, function (req, res, next) {
 //  - DELETE: deletes image by id
 router.get(endPoints.images.byOrderId, (req, res) => apiHandlers.getItemsByAttr(modelPaths.images, req, res, "orderId"));
 router.delete(endPoints.images.byid, (req, res) => apiHandlers.deleteItem(modelPaths.images, req, res));
-
 
 console.log("API end points ready");
 

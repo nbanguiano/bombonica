@@ -1,7 +1,9 @@
+
 <div class="row">
-  <div *ngFor="let image of images" class="col-xs-6 col-md-3">
+  <div *ngFor="let image of images" class="col-xs-6 col-md-3" style="border: 1px; border-color: dimgray;">
     <a [href]="image.path.replace('portfolio/', '')" target="_blank" class="thumbnail">
       <img [src]="image.path.replace('portfolio/', '')">
     </a>
+    <span class="glyphicon glyphicon-trash" (click)="deleteImage(image._id)"></span>
   </div>
 </div>

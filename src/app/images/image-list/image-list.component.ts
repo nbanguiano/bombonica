@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Image } from '../image';
 import { ImageService } from '../image.service';
@@ -7,23 +7,36 @@ import { Order } from '../../orders/order';
 @Component({
   selector: 'image-list',
   templateUrl: './image-list.component.html',
-  styleUrls: ['./image-list.component.css'],
-  providers: [ImageService]
+  styleUrls: ['./image-list.component.css']
 })
-export class ImageListComponent implements OnInit {
+export class ImageListComponent {
 
-  @Input()
-  images: Image[];
   @Input()
   order: Order;
 
-  constructor(private imageService: ImageService) { }
+  @Input()
+  images: Image[];
 
-  ngOnInit() {
-  }
+  constructor(private imageService: ImageService) {}
 
   deleteImage(imageId: String) {
     this.imageService.deleteImage(imageId)
+        .then((res) => { 
+          this.updateImageView();
+        });
   };
+
+  updateImageView(): void {
+    // send message to subscribers via observable subject
+    this.imageService.getImagesByOrder(this.order._id)
+                     .then((images: Image[]) => {
+                        this.imageService.updateImages(images);
+                     })
+  }
+ 
+  clearMemory(): void {
+    // clear message
+    this.imageService.clearMemory();
+  }
 
 };

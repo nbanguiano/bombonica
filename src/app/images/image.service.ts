@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Image } from './image';
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import 'rxjs/add/operator/toPromise';
 
 import { UserService } from '../common/user.service';
@@ -12,6 +15,20 @@ export class ImageService {
               private user: UserService) {}
 
   private imagesUrl = '/api/images';
+
+  private _subject: BehaviorSubject<Image[]> = new BehaviorSubject([]);
+
+  updateImages(images: Image[]) {
+    this._subject.next(images);
+  }
+
+  clearMemory() {
+    this._subject.next(null);
+  }
+
+  getImageUpdate(): Observable<any> {
+    return this._subject.asObservable();
+  }
 
   // get("/api/images")
   getImages(): Promise<Image[]>{

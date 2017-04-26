@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
@@ -16,21 +17,30 @@ import { OrderDetailsComponent } from '../order-details/order-details.component'
   providers: [OrderService, ContactService, RecipeService, ImageService]
 })
 
-export class OrderListComponent implements OnInit {
+export class OrderListComponent implements OnInit, OnDestroy {
 
-  orders: Order[]
-  selectedOrder: Order
+  orders: Order[];
+  selectedOrder: Order;
 
-  contacts: Contact[]
+  contacts: Contact[];
 
-  recipes: Recipe[]
+  recipes: Recipe[];
 
-  images: Image[]
+  images: Image[];
+
+  imgSubscription: Subscription;
+
+  message: any;
 
   constructor(private orderService: OrderService, 
               private contactService: ContactService,
               private recipeService: RecipeService,
-              private imageService: ImageService) {}
+              private imageService: ImageService) {
+                this.imgSubscription = this.imageService.getImageUpdate().subscribe((images: Image[]) => {
+                  this.images = images;
+                });
+              }
+
 
   ngOnInit() {
     this.orderService
@@ -48,6 +58,11 @@ export class OrderListComponent implements OnInit {
         .then((recipes: Recipe[]) => {
           this.recipes = recipes;
         });
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.imgSubscription.unsubscribe();
   }
 
   private getIndexOfOrder = (orderId: String) => {
@@ -68,7 +83,6 @@ export class OrderListComponent implements OnInit {
           .getImagesByOrder(orderId)
           .then((images: Image[]) => {
             this.images = images;
-            console.log(images);
           })
   }
 

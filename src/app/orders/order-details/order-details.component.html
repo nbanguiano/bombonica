@@ -41,7 +41,7 @@
     <br/><br/>
     <hr/>
     <h3>Fotos</h3>
-    <image-list *ngIf="order._id" [images]="images"></image-list>
+    <image-list *ngIf="order._id" [order]="order" [images]="images"></image-list>
     <image-input *ngIf="order._id" [orderId]="order._id"></image-input>
   </form>
 </div>
