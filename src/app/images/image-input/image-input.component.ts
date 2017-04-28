@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { UserService } from '../../common/user.service';
-import { ImageService } from '../image.service';
 import { Image } from '../image';
+import { ImageService } from '../image.service';
+import { UserService } from '../../common/user.service';
 
 @Component({
     selector: 'image-input',
@@ -13,14 +13,28 @@ export class ImageInputComponent implements OnInit, OnChanges {
   @Input()
   orderId: String;
 
-  constructor(private user: UserService,
-              private imageService: ImageService) {}
-
   // Our image upload enpoint
   private imageUploadUrl = '/api/images';
 
-  // A new instance of the ng2 file uploader
-  uploader:FileUploader = new FileUploader({url: this.user.signUri(this.imageUploadUrl), itemAlias: 'portfolio'});
+  private uploader: FileUploader;
+
+  constructor(private user: UserService,
+              private imageService: ImageService) {
+                // A new instance of the ng2 file uploader
+                this.uploader = new FileUploader({url: this.user.signUri(this.imageUploadUrl), itemAlias: 'portfolio'});
+
+                this.uploader.onCompleteAll = () => {
+                  console.log('Upload for order ' + this.orderId + ' is complete');
+                  
+                  this.uploader.clearQueue();
+                  
+                  this.imageService
+                      .getImagesByOrder(this.orderId)
+                      .then((images: Image[]) => {
+                        this.imageService.updateImages(images)
+                      })
+                }
+              }
 
   ngOnChanges() {
     // Clear queue
@@ -37,25 +51,13 @@ export class ImageInputComponent implements OnInit, OnChanges {
     }
   }
 
-  upload(orderId: String){
+  upload() {
+    console.log("Uploading image(s) for order: " + this.orderId)
     // Enrich request with the  orderId related to this image
     this.uploader.onBuildItemForm = (item, form) => {
-      form.append('orderId', orderId);
+      form.append('orderId', this.orderId);
     }
     // Do the actual upload. This is posting the request to the imageUploadUrl
-    this.uploader.uploadAll()
-
-    this.uploader.onCompleteAll = function() {
-      this.updateImageView();
-    }
+    this.uploader.uploadAll();
   }
-
-  updateImageView(): void {
-    // send message to subscribers via observable subject
-    this.imageService.getImagesByOrder(this.orderId)
-                     .then((images: Image[]) => {
-                        this.imageService.updateImages(images)
-                     })
-  }
-
 }

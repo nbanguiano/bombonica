@@ -1,23 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from '@angular/core';
+
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
-import { Image } from '../../images/image';
 import { OrderService } from '../order.service';
 import { ContactService } from '../../contacts/contact.service';
 import { RecipeService } from '../../recipes/recipe.service';
-import { ImageService } from '../../images/image.service';
+
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 
 @Component({
   selector: 'order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css'],
-  providers: [OrderService, ContactService, RecipeService, ImageService]
+  providers: [OrderService, ContactService, RecipeService]
 })
 
-export class OrderListComponent implements OnInit, OnDestroy {
+export class OrderListComponent implements OnInit {
 
   orders: Order[];
   selectedOrder: Order;
@@ -26,20 +25,9 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   recipes: Recipe[];
 
-  images: Image[];
-
-  imgSubscription: Subscription;
-
-  message: any;
-
   constructor(private orderService: OrderService, 
               private contactService: ContactService,
-              private recipeService: RecipeService,
-              private imageService: ImageService) {
-                this.imgSubscription = this.imageService.getImageUpdate().subscribe((images: Image[]) => {
-                  this.images = images;
-                });
-              }
+              private recipeService: RecipeService) {}
 
 
   ngOnInit() {
@@ -60,11 +48,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
         });
   }
 
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.imgSubscription.unsubscribe();
-  }
-
   private getIndexOfOrder = (orderId: String) => {
     return this.orders.findIndex((order) => {
       return order._id === orderId;
@@ -73,17 +56,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   selectOrder(order: Order) {
     this.selectedOrder = order;
-    if (order) {
-      this.updateImageList(order._id);
-    }
-  }
-
-  updateImageList = (orderId: String) => {
-      this.imageService
-          .getImagesByOrder(orderId)
-          .then((images: Image[]) => {
-            this.images = images;
-          })
   }
 
   createNewOrder() {

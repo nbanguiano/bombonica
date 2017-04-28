@@ -1,29 +1,28 @@
-import { Component, Input, DoCheck } from '@angular/core';
-//import { CalendarModule } from 'primeng/primeng';
-import { ImageInputComponent } from '../../images/image-input/image-input.component';
-import { ImageListComponent } from '../../images/image-list/image-list.component';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
 import { Image } from '../../images/image';
+import { ImageService } from '../../images/image.service';
 import { OrderService } from '../order.service';
+
+import { ImageListComponent } from '../../images/image-list/image-list.component';
 
 @Component({
   selector: 'order-details',
   templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.css']
+  styleUrls: ['./order-details.component.css'],
+  providers: [ImageService]
 })
-export class OrderDetailsComponent {
+export class OrderDetailsComponent implements OnChanges {
   @Input()
   order: Order;
   @Input()
   contacts: Contact[];
   @Input()
   recipes: Recipe[];
-  @Input()
-  images: Image[];
-
+  
   @Input()
   createHandler: Function;
   @Input()
@@ -31,7 +30,19 @@ export class OrderDetailsComponent {
   @Input()
   deleteHandler: Function;
 
-  constructor(private orderService: OrderService) {}
+  images: Image[];
+
+  constructor(private orderService: OrderService,
+              private imageService: ImageService) {}
+
+  ngOnChanges() {
+    if (this.order) {
+      this.imageService.getImagesByOrder(this.order._id)
+          .then((images: Image[]) => {
+            this.images = images;
+          }) 
+    }
+  }
 
   events = [
     {id: 1, label: "Cumpleaños"},
