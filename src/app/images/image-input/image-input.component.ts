@@ -46,7 +46,7 @@ export class ImageInputComponent implements OnInit, OnChanges {
     this.uploader.uploadAll()
 
     this.uploader.onCompleteAll = function() {
-      this.updateImagesView()
+      this.updateImageView();
     }
   }
 

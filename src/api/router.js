@@ -8,12 +8,7 @@ var auth = jwt({
 });
 
 const fs = require('fs');
-/*
-fs.unlink('/tmp/hello', (err) => {
-  if (err) throw err;
-  console.log('successfully deleted /tmp/hello');
-});
-*/
+
 var crypto = require("crypto");
 var mime = require("mime");
 var multer  = require("multer");
@@ -104,7 +99,7 @@ router.delete(endPoints.recipes.byid, (req, res) => apiHandlers.deleteItem(model
 //  - GET: finds all images
 //  - POST: creates new images and uploads them to the specified directory in multer settings
 router.get(endPoints.images.raw, (req, res) => apiHandlers.getAll(modelPaths.images, req, res, {sort:{createDate: 1}}));
-router.post(endPoints.images.raw, function (req, res, next) {
+router.post(endPoints.images.raw, (req, res) => {
   multerUpload(req, res, function (err) {
     if (err) {
       // An error occurred when uploading
@@ -134,7 +129,36 @@ router.post(endPoints.images.raw, function (req, res, next) {
 //  - GET: find images by orderId
 //  - DELETE: deletes image by id
 router.get(endPoints.images.byOrderId, (req, res) => apiHandlers.getItemsByAttr(modelPaths.images, req, res, "orderId"));
-router.delete(endPoints.images.byid, (req, res) => apiHandlers.deleteItem(modelPaths.images, req, res));
+router.delete(endPoints.images.byid, (req, res) => {
+
+  var ImageModel = require(modelPaths.images);
+
+  ImageModel.findOne({_id: req.params.id}, (error, doc) => {
+    if (error) {
+      apiHandlers._handleError(res, error.message, "Failed to get " + Model.name + ".");
+    }
+    else {
+      fs.unlink(doc.path, (err) => {
+        if (err) {
+          throw err;
+        }
+        // No errors occurred, and the image was deleted from the server
+        console.log('Successfully deleted from the server: ' + doc.path);
+        // Now remove reference from DB
+        ImageModel.remove({_id: req.params.id}, function(error, doc) {
+          if (error) {
+            apiHandlers._handleError(res, error.message, "Failed to delete " + Model.name);
+          }
+          else {
+            res.status(200).json(req.params.id);
+          };
+        });
+
+      });
+    }
+  })
+
+});
 
 console.log("API end points ready");
 
