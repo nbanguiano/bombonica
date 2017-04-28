@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
@@ -13,7 +14,7 @@ import { ImageListComponent } from '../../images/image-list/image-list.component
   selector: 'order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.css'],
-  providers: [ImageService]
+  providers: [OrderService, ImageService]
 })
 export class OrderDetailsComponent implements OnChanges {
   @Input()
@@ -33,14 +34,17 @@ export class OrderDetailsComponent implements OnChanges {
   images: Image[];
 
   constructor(private orderService: OrderService,
-              private imageService: ImageService) {}
+              private imageService: ImageService,
+              private location: Location) {}
 
   ngOnChanges() {
     if (this.order) {
       this.imageService.getImagesByOrder(this.order._id)
           .then((images: Image[]) => {
             this.images = images;
-          }) 
+          })
+
+      this.location.replaceState("/admin/orders/" + this.order._id);
     }
   }
 

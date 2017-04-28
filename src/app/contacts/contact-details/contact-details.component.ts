@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Location } from '@angular/common';
+
 import { Contact } from '../contact';
 import { ContactService } from '../contact.service';
 
@@ -8,7 +10,7 @@ import { ContactService } from '../contact.service';
   styleUrls: ['./contact-details.component.css']
 })
 
-export class ContactDetailsComponent {
+export class ContactDetailsComponent implements OnChanges {
   @Input()
   contact: Contact;
 
@@ -19,7 +21,8 @@ export class ContactDetailsComponent {
   @Input()
   deleteHandler: Function;
 
-  constructor (private contactService: ContactService) {}
+  constructor (private contactService: ContactService,
+               private location: Location) {}
 
   contactSources = [
     {id: 1, label: "Referencia"},
@@ -27,6 +30,12 @@ export class ContactDetailsComponent {
     {id: 3, label: "Facebook"},
     {id: 4, label: "Otros"}
   ];
+
+  ngOnChanges() {
+    if (this.contact) {
+      this.location.replaceState("/admin/contacts/" + this.contact._id);
+    }
+  }
 
   createContact(contact: Contact) {
     this.contactService.createContact(contact).then((newContact: Contact) => {

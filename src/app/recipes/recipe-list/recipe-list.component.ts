@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+
 import { Recipe, IngredientInput } from '../recipe';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from '../../ingredients/ingredient';
 import { IngredientService } from '../../ingredients/ingredient.service';
+
 import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
 
 @Component({
@@ -27,7 +30,8 @@ export class RecipeListComponent implements OnInit {
 
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService,
-              private ingredientService: IngredientService) {}
+              private ingredientService: IngredientService,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.recipeService
@@ -37,6 +41,15 @@ export class RecipeListComponent implements OnInit {
     this.ingredientService
         .getIngredients()
         .then((ingredients: Ingredient[]) => {this.ingredients = ingredients});
+
+    // subscribe to router event
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let recipeId = params['id'];
+      if (recipeId) {
+        this.recipeService.getOneRecipe(recipeId)
+            .then((recipe: Recipe) => {this.selectRecipe(recipe)})
+      }
+    });
   }
 
 

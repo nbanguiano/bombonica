@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
@@ -27,7 +28,8 @@ export class OrderListComponent implements OnInit {
 
   constructor(private orderService: OrderService, 
               private contactService: ContactService,
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              private activatedRoute: ActivatedRoute) {}
 
 
   ngOnInit() {
@@ -46,6 +48,16 @@ export class OrderListComponent implements OnInit {
         .then((recipes: Recipe[]) => {
           this.recipes = recipes;
         });
+
+    // subscribe to router event
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let orderId = params['id'];
+      if (orderId) {
+        this.orderService.getOneOrder(orderId)
+            .then((order: Order) => {this.selectOrder(order)})
+      }
+    });
+
   }
 
   private getIndexOfOrder = (orderId: String) => {

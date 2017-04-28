@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
 import { Ingredient } from '../ingredient';
 import { IngredientService } from '../ingredient.service';
+
 import { IngredientDetailsComponent } from '../ingredient-details/ingredient-details.component';
 
 @Component({
@@ -15,12 +18,23 @@ export class IngredientListComponent implements OnInit {
   ingredients: Ingredient[]
   selectedIngredient: Ingredient
 
-  constructor(private ingredientService: IngredientService) {}
+  constructor(private ingredientService: IngredientService,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.ingredientService
         .getIngredients()
         .then((ingredients: Ingredient[]) => {this.ingredients = ingredients});
+
+    // subscribe to router event
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let ingredientId = params['id'];
+      if (ingredientId) {
+        this.ingredientService.getOneIngredient(ingredientId)
+            .then((ingredient: Ingredient) => {this.selectIngredient(ingredient)})
+      }
+    });
+
   }
 
   private getIndexOfIngredient = (ingredientId: String) => {

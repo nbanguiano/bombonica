@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
 import { Contact } from '../contact';
 import { ContactService } from '../contact.service';
+
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 
 @Component({
@@ -15,7 +18,8 @@ export class ContactListComponent implements OnInit {
   contacts: Contact[]
   selectedContact: Contact
 
-  constructor(private contactService: ContactService) {}
+  constructor(private contactService: ContactService,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
      this.contactService
@@ -23,6 +27,15 @@ export class ContactListComponent implements OnInit {
          .then((contacts: Contact[]) => {
            this.contacts = contacts;
          });
+
+    // subscribe to router event
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let contactId = params['id'];
+      if (contactId) {
+        this.contactService.getOneContact(contactId)
+            .then((contact: Contact) => {this.selectContact(contact)})
+      }
+    });
   }
 
   private getIndexOfContact = (contactId: String) => {

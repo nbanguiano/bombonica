@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Location } from '@angular/common';
+
 import { Ingredient } from '../ingredient';
 import { IngredientService } from '../ingredient.service';
 import { RecipeService } from '../../recipes/recipe.service';
@@ -10,7 +12,7 @@ import { RecipeService } from '../../recipes/recipe.service';
   providers: [RecipeService]
 })
 
-export class IngredientDetailsComponent {
+export class IngredientDetailsComponent implements OnChanges {
   @Input()
   ingredient: Ingredient;
 
@@ -22,7 +24,8 @@ export class IngredientDetailsComponent {
   deleteHandler: Function;
 
   constructor(private ingredientService: IngredientService,
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              private location: Location) {}
 
   meassures = [
     {id: "Ud.", label: "Unidad"},
@@ -31,6 +34,12 @@ export class IngredientDetailsComponent {
     {id: "Lt", label: "Litro"},
     {id: "ml", label: "Mililitro"}
   ];
+
+  ngOnChanges() {
+    if (this.ingredient) {
+      this.location.replaceState("/admin/ingredients/" + this.ingredient._id);
+    }
+  }
 
   createIngredient(ingredient: Ingredient) {
     this.ingredientService.createIngredient(ingredient)

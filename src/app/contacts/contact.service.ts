@@ -30,6 +30,12 @@ export class ContactService {
   }
 
   // get('/api/contacts/:id') endpoint not used by the app
+  getOneContact(contactId: String): Promise<Contact>{
+  return this.http.get(this.user.signUri(this.contactsUrl + '/' + contactId))
+              .toPromise()
+              .then(response => response.json() as Contact)
+              .catch(this.handleError);
+  }
 
   // put('/api/contacts/:id')
   updateContact(putContact: Contact): Promise<Contact> {

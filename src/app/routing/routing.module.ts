@@ -7,13 +7,9 @@ import { CanActivateChildGuard } from '../common/can-activate-child-guard.servic
 
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { ContactListComponent } from '../contacts/contact-list/contact-list.component';
-import { ContactDetailsComponent }   from '../contacts/contact-details/contact-details.component';
 import { OrderListComponent } from '../orders/order-list/order-list.component';
-import { OrderDetailsComponent } from '../orders/order-details/order-details.component';
 import { IngredientListComponent } from '../ingredients/ingredient-list/ingredient-list.component';
-import { IngredientDetailsComponent } from '../ingredients/ingredient-details/ingredient-details.component';
 import { RecipeListComponent } from '../recipes/recipe-list/recipe-list.component';
-import { RecipeDetailsComponent } from '../recipes/recipe-details/recipe-details.component';
 import { SigninComponent } from '../signin/signin.component';
 
 const routes: Routes = [
@@ -24,13 +20,13 @@ const routes: Routes = [
     children: [
       { path: 'dashboard',  component: DashboardComponent },
       { path: 'contacts',  component: ContactListComponent },
-      { path: 'contacts/:id',  component: ContactDetailsComponent },
+      { path: 'contacts/:id',  component: ContactListComponent },
       { path: 'orders', component: OrderListComponent },
-      { path: 'orders/:id', component: OrderDetailsComponent },
+      { path: 'orders/:id', component: OrderListComponent },
       { path: 'ingredients',  component: IngredientListComponent },
-      { path: 'ingredients/:id',  component: IngredientDetailsComponent },
+      { path: 'ingredients/:id',  component: IngredientListComponent },
       { path: 'recipes',  component: RecipeListComponent },
-      { path: 'recipes/:id',  component: RecipeDetailsComponent }
+      { path: 'recipes/:id',  component: RecipeListComponent }
     ]},
   { path: 'signin',  component: SigninComponent }
 ];

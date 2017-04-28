@@ -10,7 +10,7 @@ module.exports = {
     var Model = require(modelPath);
     Model.find().sort(options.sort).exec(function(error, docs){
       if (error){ 
-        this._handleError(response, error.message, "Failed to get " + Model.name + ".");
+        this._handleError(response, error.message, "Failed to get " + Model + ".");
       }
       else {
         response.status(200).json(docs);
@@ -29,7 +29,7 @@ module.exports = {
     item.createDate = new Date();
     item.save(function(error, doc) {
       if (error) {
-        this._handleError(response, error.message, "Failed to create new " + Model.name + ".");
+        this._handleError(response, error.message, "Failed to create new " + Model + ".");
       }
       else {
         response.status(201).json(doc);
@@ -41,7 +41,7 @@ module.exports = {
     var Model = require(modelPath);
     Model.findOne({_id: request.params.id}, function(error, doc) {
       if (error) {
-        this._handleError(response, error.message, "Failed to get " + Model.name + ".");
+        this._handleError(response, error.message, "Failed to get " + Model + ".");
       }
       else {
         response.status(200).json(doc);
@@ -53,7 +53,7 @@ module.exports = {
     var Model = require(modelPath);
     Model.find().where(attrToQuery).equals(request.params[attrToQuery]).exec(function(error, doc) {
       if (error) {
-        this._handleError(response, error.message, "Failed to get " + Model.name + ".");
+        this._handleError(response, error.message, "Failed to get " + Model + ".");
       }
       else {
         response.status(200).json(doc);
@@ -65,10 +65,10 @@ module.exports = {
     var Model = require(modelPath);
     Model.findOneAndUpdate({_id: request.params.id}, request.body, {}, function(error, doc) {
       if (error) {
-        this._handleError(response, error.message, "Failed to get " + Model.name + ".");
+        this._handleError(response, error.message, "Failed to get " + Model + ".");
       }
       else {
-        response.status(200).json({ message: Model.name + " updated."});
+        response.status(200).json({ message: Model + " updated."});
       };
     });
   },
@@ -77,7 +77,7 @@ module.exports = {
     var Model = require(modelPath);
     Model.remove({_id: request.params.id}, function(error, doc) {
       if (error) {
-        this._handleError(response, error.message, "Failed to delete " + Model.name);
+        this._handleError(response, error.message, "Failed to delete " + Model);
       }
       else {
         response.status(200).json(request.params.id);

@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+
 import { Recipe } from '../recipe';
 import { Ingredient } from '../../ingredients/ingredient';
 import { RecipeService } from '../recipe.service';
@@ -11,7 +13,7 @@ import { IngredientService } from '../../ingredients/ingredient.service';
   styleUrls: ['./recipe-details.component.css'],
   providers: []
 })
-export class RecipeDetailsComponent {
+export class RecipeDetailsComponent implements OnChanges {
   @Input()
   recipe: Recipe;
 
@@ -30,7 +32,8 @@ export class RecipeDetailsComponent {
 
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService,
-              private ingredientService: IngredientService) {}
+              private ingredientService: IngredientService,
+              private location: Location) {}
 
   types = [
     {id: 1, label: "Normal"},
@@ -46,6 +49,12 @@ export class RecipeDetailsComponent {
     {id: 4, label: "Familia"},
     {id: 5, label: "Otro"}
   ];
+
+  ngOnChanges() {
+    if (this.recipe) {
+      this.location.replaceState("/admin/recipes/" + this.recipe._id);
+    }
+  }
   
   initIngredient() {
     return this._fb.group({

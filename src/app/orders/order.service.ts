@@ -30,6 +30,12 @@ export class OrderService {
   }
 
   // get("/api/orders/:id") endpoint not used by the app
+  getOneOrder(orderId: String): Promise<Order>{
+  return this.http.get(this.user.signUri(this.ordersUrl + '/' + orderId))
+              .toPromise()
+              .then(response => response.json() as Order)
+              .catch(this.handleError);
+  }
 
   // put("/api/orders/:id")
   updateOrder(putOrder: Order): Promise<Order> {
