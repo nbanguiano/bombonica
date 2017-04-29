@@ -21,6 +21,14 @@ export class OrderService {
                .catch(this.handleError);
   }
 
+  // get("/api/orders/byContact/:contactId")
+  getOrdersByContactId(contactId: String): Promise<Order[]>{
+    return this.http.get(this.user.signUri(this.ordersUrl + '/byContact/' + contactId))
+               .toPromise()
+               .then(response => response.json() as Order[])
+               .catch(this.handleError);
+  }
+
   // post("/api/orders")
   createOrder(newOrder: Order): Promise<Order> {
     return this.http.post(this.user.signUri(this.ordersUrl), newOrder)

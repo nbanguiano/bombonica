@@ -38,7 +38,7 @@ var modelPaths = {
 // The router is applied on top of te /api route, so only relative paths needed here
 var endPoints = {
   contacts: {raw: "/contacts", byid: "/contacts/:id"},
-  orders: {raw: "/orders", byid: "/orders/:id"},
+  orders: {raw: "/orders", byid: "/orders/:id", byContactId: "/orders/byContact/:contactId"},
   ingredients: {raw: "/ingredients", byid: "/ingredients/:id"},
   recipes: {raw: "/recipes", byid: "/recipes/:id"},
   images: {raw: "/images", byid: "/images/:id", byOrderId: "/images/byOrder/:orderId"}
@@ -61,8 +61,10 @@ router.delete(endPoints.contacts.byid, (req, res) => apiHandlers.deleteItem(mode
 
 
 //  - GET: finds all orders
+//  - GET: get all orders by contactId
 //  - POST: creates a new order
 router.get(endPoints.orders.raw, (req, res) => apiHandlers.getAll(modelPaths.orders, req, res, {sort:{date: 1}}));
+router.get(endPoints.orders.byContactId, (req, res) => apiHandlers.getItemsByAttr(modelPaths.orders, req, res, "contactId"));
 router.post(endPoints.orders.raw, (req, res) => apiHandlers.createItem(modelPaths.orders, req, res, "name"));
 //  - GET: find order by id
 //  - PUT: update order by id

@@ -3,14 +3,17 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Contact } from '../contact';
 import { ContactService } from '../contact.service';
+import { Order } from '../../orders/order';
+import { OrderService } from '../../orders/order.service';
 
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
+import { OrderListContactComponent } from '../../orders/order-list-contact/order-list-contact.component';
 
 @Component({
   selector: 'contact-list',
   templateUrl: './contact-list.component.html',
   styleUrls: ['./contact-list.component.css'],
-  providers: [ContactService]
+  providers: [ContactService, OrderService]
 })
 
 export class ContactListComponent implements OnInit {
@@ -18,15 +21,18 @@ export class ContactListComponent implements OnInit {
   contacts: Contact[]
   selectedContact: Contact
 
+  orders: Order[]
+
   constructor(private contactService: ContactService,
+              private orderService: OrderService,
               private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-     this.contactService
-         .getContacts()
-         .then((contacts: Contact[]) => {
-           this.contacts = contacts;
-         });
+    this.contactService
+        .getContacts()
+        .then((contacts: Contact[]) => {
+          this.contacts = contacts;
+        });
 
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -45,7 +51,12 @@ export class ContactListComponent implements OnInit {
   }
 
   selectContact(contact: Contact) {
-    this.selectedContact = contact
+    this.selectedContact = contact;
+
+    this.orderService.getOrdersByContactId(contact._id)
+        .then((orders: Order[]) => {
+          this.orders = orders;
+        })
   }
 
   createNewContact() {

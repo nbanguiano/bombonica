@@ -29,6 +29,7 @@ import { ImageInputComponent } from './images/image-input/image-input.component'
 import { ImageListComponent } from './images/image-list/image-list.component';
 
 import { CalendarModule } from 'primeng/primeng';
+import { OrderListContactComponent } from './orders/order-list-contact/order-list-contact.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CalendarModule } from 'primeng/primeng';
     DashboardComponent,
     ImageInputComponent,
     FileSelectDirective,
-    ImageListComponent
+    ImageListComponent,
+    OrderListContactComponent
   ],
   imports: [
     BrowserModule,

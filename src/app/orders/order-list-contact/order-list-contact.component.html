@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>Ordenes</h2>
+    <ul class="list-group">
+      <li class="list-group-item"
+        *ngFor="let order of orders"
+        (click)="navigateTo(order)">
+        {{order.name}} | {{order.date}}
+      </li>
+    </ul>
+  </div>
+</div>
