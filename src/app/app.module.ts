@@ -18,6 +18,8 @@ import { ContactListComponent } from './contacts/contact-list/contact-list.compo
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
 import { IngredientListComponent } from './ingredients/ingredient-list/ingredient-list.component';
 import { IngredientDetailsComponent } from './ingredients/ingredient-details/ingredient-details.component';
+import { ComplementListComponent } from './complements/complement-list/complement-list.component';
+import { ComplementDetailsComponent } from './complements/complement-details/complement-details.component';
 import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
@@ -30,6 +32,7 @@ import { ImageListComponent } from './images/image-list/image-list.component';
 
 import { CalendarModule } from 'primeng/primeng';
 import { OrderListContactComponent } from './orders/order-list-contact/order-list-contact.component';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { OrderListContactComponent } from './orders/order-list-contact/order-lis
     ImageInputComponent,
     FileSelectDirective,
     ImageListComponent,
-    OrderListContactComponent
+    OrderListContactComponent,
+    ComplementListComponent,
+    ComplementDetailsComponent
   ],
   imports: [
     BrowserModule,

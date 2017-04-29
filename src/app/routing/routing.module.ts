@@ -9,6 +9,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { ContactListComponent } from '../contacts/contact-list/contact-list.component';
 import { OrderListComponent } from '../orders/order-list/order-list.component';
 import { IngredientListComponent } from '../ingredients/ingredient-list/ingredient-list.component';
+import { ComplementListComponent } from '../complements/complement-list/complement-list.component';
 import { RecipeListComponent } from '../recipes/recipe-list/recipe-list.component';
 import { SigninComponent } from '../signin/signin.component';
 
@@ -25,6 +26,8 @@ const routes: Routes = [
       { path: 'orders/:id', component: OrderListComponent },
       { path: 'ingredients',  component: IngredientListComponent },
       { path: 'ingredients/:id',  component: IngredientListComponent },
+      { path: 'complements',  component: ComplementListComponent },
+      { path: 'complements/:id',  component: ComplementListComponent },
       { path: 'recipes',  component: RecipeListComponent },
       { path: 'recipes/:id',  component: RecipeListComponent }
     ]},

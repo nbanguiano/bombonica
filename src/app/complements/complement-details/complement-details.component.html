@@ -1,0 +1,28 @@
+<div *ngIf="complement" class="row">
+  <div class="col-md-12">
+    <h2 *ngIf="complement._id">Detalles del complemento</h2>
+    <h2 *ngIf="!complement._id">Nuevo complemento</h2>
+  </div>
+</div>
+<div *ngIf="complement" class="row">
+  <form class="col-md-12">
+    <div class="form-group">
+      <label for="complement-name">Nombre</label>
+      <input class="form-control" name="complement-name" [(ngModel)]="complement.name" placeholder="Name"/>
+    </div>
+    <div class="form-group">
+      <label for="complement-meassure">Medida</label>
+      <select class="form-control"  id="meassure"
+              [(ngModel)]="complement.meassure" name="complement-meassure">
+        <option *ngFor="let meassure of meassures" [value]="meassure.id">{{meassure.label}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="complement-cost">Coste (€)</label>
+      <input class="form-control" type="cost" name="complement-cost" [(ngModel)]="complement.cost"/>
+    </div>
+    <button class="btn btn-primary" *ngIf="!complement._id" (click)="createComplement(complement)">Crear</button>
+    <button class="btn btn-info" *ngIf="complement._id" (click)="updateComplement(complement)">Actualizar</button>
+    <button class="btn btn-danger" *ngIf="complement._id" (click)="deleteComplement(complement._id)">Eliminar</button>
+  </form>
+</div>

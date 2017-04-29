@@ -31,6 +31,7 @@ var modelPaths = {
   contacts: "../models/contacts",
   orders: "../models/orders",
   ingredients: "../models/ingredients",
+  complements: "../models/complements",
   recipes: "../models/recipes",
   images: "../models/images"
 };
@@ -40,6 +41,7 @@ var endPoints = {
   contacts: {raw: "/contacts", byid: "/contacts/:id"},
   orders: {raw: "/orders", byid: "/orders/:id", byContactId: "/orders/byContact/:contactId"},
   ingredients: {raw: "/ingredients", byid: "/ingredients/:id"},
+  complements: {raw: "/complements", byid: "/complements/:id"},
   recipes: {raw: "/recipes", byid: "/recipes/:id"},
   images: {raw: "/images", byid: "/images/:id", byOrderId: "/images/byOrder/:orderId"}
 };
@@ -84,6 +86,18 @@ router.post(endPoints.ingredients.raw, (req, res) => apiHandlers.createItem(mode
 router.get(endPoints.ingredients.byid, (req, res) => apiHandlers.getItem(modelPaths.ingredients, req, res));
 router.put(endPoints.ingredients.byid, (req, res) => apiHandlers.updateItem(modelPaths.ingredients, req, res));
 router.delete(endPoints.ingredients.byid, (req, res) => apiHandlers.deleteItem(modelPaths.ingredients, req, res));
+
+
+//  - GET: finds all complements
+//  - POST: creates a new complement
+router.get(endPoints.complements.raw, (req, res) => apiHandlers.getAll(modelPaths.complements, req, res, {sort:{cost: -1}}));
+router.post(endPoints.complements.raw, (req, res) => apiHandlers.createItem(modelPaths.complements, req, res, "name"));
+//  - GET: find complement by id
+//  - PUT: update complement by id
+//  - DELETE: deletes complement by id
+router.get(endPoints.complements.byid, (req, res) => apiHandlers.getItem(modelPaths.complements, req, res));
+router.put(endPoints.complements.byid, (req, res) => apiHandlers.updateItem(modelPaths.complements, req, res));
+router.delete(endPoints.complements.byid, (req, res) => apiHandlers.deleteItem(modelPaths.complements, req, res));
 
 
 //  - GET: finds all recipes
