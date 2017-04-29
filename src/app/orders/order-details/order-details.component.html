@@ -1,46 +1,91 @@
 <div *ngIf="order" class="row">
   <div class="col-md-12">
-    <h2 *ngIf="order._id">Detalles de la orden</h2>
+    <h2 *ngIf="order._id">Detalle</h2>
     <h2 *ngIf="!order._id">Nueva orden</h2>
   </div>
 </div>
 <div *ngIf="order" class="row">
-  <form class="col-md-12">
+  <form [formGroup]="orderForm" class="col-md-12">
     <div class="form-group">
       <label for="order-name">Nombre</label>
-      <input class="form-control" name="order-name" [(ngModel)]="order.name" placeholder="Name"/>
+      <input class="form-control" name="order-name" formControlName="name"/>
     </div>
     <div class="form-group">
       <label for="order-contactId">Contacto</label>
       <select class="form-control" id="contact"
-              [(ngModel)]="order.contactId" name="order-contactId">
+              formControlName="contactId" name="order-contactId">
         <option *ngFor="let contact of contacts" [value]="contact._id">{{contact.name}}</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="order-recipeId">Receta</label>
-      <select class="form-control" id="recipe"
-              [(ngModel)]="order.recipeId" name="order-recipeId">
-        <option *ngFor="let recipe of recipes" [value]="recipe._id">{{recipe.name}}</option>
-      </select>
-    </div>
-    <div class="form-group">
       <label for="order-date">Fecha</label>
-      <input class="form-control" type="date" name="order-date" [(ngModel)]="order.date"/>
+      <input class="form-control" type="date" name="order-date" formControlName="date"/>
     </div>
     <div class="form-group">
       <label for="order-event">Evento</label>
       <select class="form-control" id="event"
-              [(ngModel)]="order.event" name="order-event">
+              formControlName="event" name="order-event">
         <option *ngFor="let event of events" [value]="event.id">{{event.label}}</option>
       </select>
     </div>
-    <button class="btn btn-primary" *ngIf="!order._id" (click)="createOrder(order)">Crear</button>
-    <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(order)">Actualizar</button>
+    <div class="form-group">
+      <label for="order-price">Precio €</label>
+      <input class="form-control" type="number" name="order-price" formControlName="price"/>
+    </div>
+    <!--recipes-->
+    <div class="form-group">
+      <div formArrayName="recipes">
+        <div *ngFor="let Recipe of orderForm.controls.recipes.controls; let i=index" class="panel panel-default">
+          <div class="panel-heading">
+            <span>Receta {{i + 1}}</span>
+            <span class="glyphicon glyphicon-remove pull-right" *ngIf="orderForm.controls.recipes.controls.length > 1" (click)="removeRecipe(i)"></span>
+          </div>
+          <div class="panel-body" [formGroupName]="i">
+            <recipe-input
+              [recipeForm]="orderForm.controls.recipes.controls[i]"
+              [recipes]="recipes">
+            </recipe-input>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a (click)="addRecipes()" style="cursor: default">
+          Añadir receta +
+        </a>
+      </div>
+    </div>
+
+    <!--complements-->
+    <div class="form-group">
+      <div formArrayName="complements">
+        <div *ngFor="let Complement of orderForm.controls.complements.controls; let i=index" class="panel panel-default">
+          <div class="panel-heading">
+            <span>Complemento {{i + 1}}</span>
+            <span class="glyphicon glyphicon-remove pull-right" *ngIf="orderForm.controls.complements.controls.length > 1" (click)="removeComplement(i)"></span>
+          </div>
+          <div class="panel-body" [formGroupName]="i">
+            <complement-input
+              [complementForm]="orderForm.controls.complements.controls[i]"
+              [complements]="complements">
+            </complement-input>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a (click)="addComplements()" style="cursor: default">
+          Añadir complemento +
+        </a>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="margin-20">
+      <div>orderForm details:-</div>
+      <pre>form value: <br>{{orderForm.value | json}}</pre>
+    </div>
+    <button class="btn btn-primary" *ngIf="!order._id" (click)="createOrder(orderForm.value)">Crear</button>
+    <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(orderForm.value)">Actualizar</button>
     <button class="btn btn-danger" *ngIf="order._id" (click)="deleteOrder(order._id)">Eliminar</button>
-    <br/><br/>
-    <hr/>
-    <h3>Fotos</h3>
-    <image-list *ngIf="order._id" [order]="order" [images]="images"></image-list>
   </form>
 </div>

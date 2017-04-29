@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 
 import { Recipe } from './recipe';
 import { Ingredient } from '../ingredients/ingredient';
-import { UserService } from '../common/user.service';
 import { IngredientService } from '../ingredients/ingredient.service';
+import { UserService } from '../common/user.service';
 
 @Injectable()
 export class RecipeService {
@@ -79,7 +79,8 @@ export class RecipeService {
     return recipe;
   }
 
-  updateAllCosts() {
+/*
+  updateCostsAfterIngredientChange() {
     // Mainly intended to be called from the ingredient-detail component
     //   when updating an ingredient, always suspecting that
     //   the price of the ingredient might have changed.
@@ -96,6 +97,7 @@ export class RecipeService {
               });
         });
   }
+*/
 
   private handleError (error: any) {
     let errMsg = (error.message) ? error.message :

@@ -1,10 +1,15 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Location } from '@angular/common';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { Order } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
+import { Complement } from '../../complements/complement';
 import { Image } from '../../images/image';
+
+import { RecipeService } from '../../recipes/recipe.service';
+import { ComplementService } from '../../complements/complement.service';
 import { ImageService } from '../../images/image.service';
 import { OrderService } from '../order.service';
 
@@ -23,7 +28,11 @@ export class OrderDetailsComponent implements OnChanges {
   contacts: Contact[];
   @Input()
   recipes: Recipe[];
-  
+  @Input()
+  complements: Complement[];
+  @Input('orderForm')
+  orderForm: FormGroup;
+
   @Input()
   createHandler: Function;
   @Input()
@@ -33,7 +42,10 @@ export class OrderDetailsComponent implements OnChanges {
 
   images: Image[];
 
-  constructor(private orderService: OrderService,
+  constructor(private _fb: FormBuilder,
+              private orderService: OrderService,
+              private recipeService: RecipeService,
+              private complementService: ComplementService,
               private imageService: ImageService,
               private location: Location) {}
 
@@ -53,8 +65,44 @@ export class OrderDetailsComponent implements OnChanges {
     {id: 2, label: "Aniversario"},
     {id: 3, label: "Matrimonio"},
     {id: 4, label: "Nacimiento"},
-    {id: 5, label: "Otro"}
+    {id: 5, label: "Bautizo"},
+    {id: 6, label: "Confirmación"},
+    {id: 7, label: "Fiesta de empresa"},
+    {id: 8, label: "Otro"}
   ];
+
+  initRecipe() {
+    return this._fb.group({
+      id: [''],
+      qty: [0]
+    });
+  }
+  addRecipes() {
+    const control = <FormArray>this.orderForm.controls['recipes'];
+    const recipeCtrl = this.initRecipe();
+    control.push(recipeCtrl);
+  }
+  removeRecipe(i: number) {
+    const control = <FormArray>this.orderForm.controls['recipes'];
+    control.removeAt(i);
+  }
+
+
+  initComplement() {
+    return this._fb.group({
+      id: [''],
+      qty: [0]
+    });
+  }
+  addComplements() {
+    const control = <FormArray>this.orderForm.controls['complements'];
+    const complementCtrl = this.initComplement();
+    control.push(complementCtrl);
+  }
+  removeComplement(i: number) {
+    const control = <FormArray>this.orderForm.controls['complements'];
+    control.removeAt(i);
+  }
 
   createOrder(order: Order) {
     this.orderService.createOrder(order)

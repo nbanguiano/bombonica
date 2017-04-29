@@ -29,7 +29,7 @@ export class ComplementListComponent implements OnInit {
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
       let complementId = params['id'];
-      if (complementId) {
+      if (complementId && complementId !== "undefined") {
         this.complementService.getOneComplement(complementId)
             .then((complement: Complement) => {this.selectComplement(complement)})
       }

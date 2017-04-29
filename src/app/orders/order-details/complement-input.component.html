@@ -1,0 +1,13 @@
+<div [formGroup]="complementForm">
+    <div class="form-group">
+      <label for="complement">Complemento</label>
+      <select class="form-control" id="complement"
+              formControlName="id" name="complement">
+        <option *ngFor="let complement of complements" [value]="complement._id">{{complement.name}} ({{complement.meassure}})</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="complement-qty">Cantidad</label>
+      <input class="form-control" type="number" name="complement-qty" formControlName="qty"/>
+    </div>
+</div>

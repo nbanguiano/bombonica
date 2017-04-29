@@ -6,7 +6,7 @@
         *ngFor="let order of orders"
         (click)="selectOrder(order)"
         [class.active]="order === selectedOrder">
-        {{order.name}} | {{order.date}}
+        {{order.name}} | {{order.date}} | {{order.price}} - {{order.cost}} = {{order.price - order.cost}}€
       </li>
     </ul>
     <button class="btn btn-warning" (click)="createNewOrder()">Nueva</button>
@@ -16,6 +16,8 @@
       [order]="selectedOrder"
       [contacts]="contacts"
       [recipes]="recipes"
+      [complements]="complements"
+      [orderForm]="orderForm"
       [createHandler]="addOrder"
       [updateHandler]="updateOrder"
       [deleteHandler]="deleteOrder">

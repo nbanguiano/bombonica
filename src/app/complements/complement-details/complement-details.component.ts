@@ -3,13 +3,13 @@ import { Location } from '@angular/common';
 
 import { Complement } from '../complement';
 import { ComplementService } from '../complement.service';
-import { RecipeService } from '../../recipes/recipe.service';
+import { OrderService } from '../../orders/order.service';
 
 @Component({
   selector: 'complement-details',
   templateUrl: './complement-details.component.html',
   styleUrls: ['./complement-details.component.css'],
-  providers: [RecipeService]
+  providers: [OrderService]
 })
 
 export class ComplementDetailsComponent implements OnChanges {
@@ -24,7 +24,7 @@ export class ComplementDetailsComponent implements OnChanges {
   deleteHandler: Function;
 
   constructor(private complementService: ComplementService,
-              private recipeService: RecipeService,
+              private orderService: OrderService,
               private location: Location) {}
 
   meassures = [
@@ -51,7 +51,6 @@ export class ComplementDetailsComponent implements OnChanges {
   updateComplement(complement: Complement) {
     this.complementService.updateComplement(complement)
                           .then((updatedComplement: Complement) => {
-                            //this.recipeService.updateAllCosts();
                             this.updateHandler(updatedComplement);
                           });
   }
@@ -59,7 +58,6 @@ export class ComplementDetailsComponent implements OnChanges {
   deleteComplement(complementId: String) {
     this.complementService.deleteComplement(complementId)
                           .then((deletedComplementId: String) => {
-                            //this.recipeService.updateAllCosts();
                             this.deleteHandler(deletedComplementId);
                           });
   }

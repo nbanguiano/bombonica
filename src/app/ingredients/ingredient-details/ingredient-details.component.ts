@@ -51,7 +51,6 @@ export class IngredientDetailsComponent implements OnChanges {
   updateIngredient(ingredient: Ingredient) {
     this.ingredientService.updateIngredient(ingredient)
                           .then((updatedIngredient: Ingredient) => {
-                            this.recipeService.updateAllCosts();
                             this.updateHandler(updatedIngredient);
                           });
   }
@@ -59,7 +58,6 @@ export class IngredientDetailsComponent implements OnChanges {
   deleteIngredient(ingredientId: String) {
     this.ingredientService.deleteIngredient(ingredientId)
                           .then((deletedIngredientId: String) => {
-                            this.recipeService.updateAllCosts();
                             this.deleteHandler(deletedIngredientId);
                           });
   }

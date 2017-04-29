@@ -1,0 +1,13 @@
+<div [formGroup]="recipeForm">
+    <div class="form-group">
+      <label for="recipe">Receta</label>
+      <select class="form-control" id="recipe"
+              formControlName="id" name="recipe">
+        <option *ngFor="let recipe of recipes" [value]="recipe._id">{{recipe.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="recipe-qty">Cantidad</label>
+      <input class="form-control" type="number" name="recipe-qty" formControlName="qty"/>
+    </div>
+</div>

@@ -26,8 +26,6 @@ export class RecipeListComponent implements OnInit {
   // To generate the populated FormGroup to be displayed in the recipe details
   recipeForm: FormGroup;
 
-  // private listenerSet = false;
-
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService,
               private ingredientService: IngredientService,
@@ -45,7 +43,7 @@ export class RecipeListComponent implements OnInit {
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
       let recipeId = params['id'];
-      if (recipeId) {
+      if (recipeId && recipeId !== "undefined") {
         this.recipeService.getOneRecipe(recipeId)
             .then((recipe: Recipe) => {this.selectRecipe(recipe)})
       }
@@ -78,26 +76,6 @@ export class RecipeListComponent implements OnInit {
         control.push(this._fb.group(ingredient));  
       });
     }
-    
-    /* subscribe to ingredients value changes */
-    /*
-    if (!this.listenerSet) {
-      this.recipeForm.controls['ingredients'].valueChanges.subscribe(x => {
-        this.recipeForm.patchValue({cost: 0});
-        x.forEach(userIngredient => {
-          if (userIngredient.id !== '') {
-            this.ingredients.forEach(dbIngredient => {
-              if (userIngredient.id === dbIngredient._id) {
-                this.recipeForm.patchValue({cost: this.recipeForm.value.cost + (dbIngredient.cost * userIngredient.qty)});
-              };
-            })  
-          };
-        });
-        this.listenerSet = true;
-      });
-    }
-    */
-
   }
 
   createNewRecipe() {

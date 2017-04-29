@@ -37,7 +37,7 @@ export class ContactListComponent implements OnInit {
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
       let contactId = params['id'];
-      if (contactId) {
+      if (contactId && contactId !== "undefined") {
         this.contactService.getOneContact(contactId)
             .then((contact: Contact) => {this.selectContact(contact)})
       }

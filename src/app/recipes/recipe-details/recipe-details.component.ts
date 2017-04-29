@@ -6,22 +6,21 @@ import { Recipe } from '../recipe';
 import { Ingredient } from '../../ingredients/ingredient';
 import { RecipeService } from '../recipe.service';
 import { IngredientService } from '../../ingredients/ingredient.service';
+import { OrderService } from '../../orders/order.service';
 
 @Component({
   selector: 'recipe-details',
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css'],
-  providers: []
+  providers: [OrderService]
 })
 export class RecipeDetailsComponent implements OnChanges {
   @Input()
   recipe: Recipe;
-
-  @Input('recipeForm')
-  recipeForm: FormGroup;
-
   @Input()
   ingredients: Ingredient[];
+  @Input('recipeForm')
+  recipeForm: FormGroup;
 
   @Input()
   createHandler: Function;
@@ -33,6 +32,7 @@ export class RecipeDetailsComponent implements OnChanges {
   constructor(private _fb: FormBuilder,
               private recipeService: RecipeService,
               private ingredientService: IngredientService,
+              private orderService: OrderService,
               private location: Location) {}
 
   types = [

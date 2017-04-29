@@ -29,7 +29,7 @@ export class IngredientListComponent implements OnInit {
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
       let ingredientId = params['id'];
-      if (ingredientId) {
+      if (ingredientId && ingredientId !== "undefined") {
         this.ingredientService.getOneIngredient(ingredientId)
             .then((ingredient: Ingredient) => {this.selectIngredient(ingredient)})
       }

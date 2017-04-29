@@ -5,9 +5,11 @@ var Schema = mongoose.Schema;
 var OrderSchema = new Schema({
   name: {type:String, required:true},
   contactId: {type:String},
-  recipeId: {type:String},
+  recipes: {type:Array, "default":[]},
+  complements: {type:Array, "default":[]},
   event: {type:String},
   price: {type:Number},
+  cost: {type:Number},
   date: {type:String}
 });
 

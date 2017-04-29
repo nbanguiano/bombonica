@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
-import { Order } from '../order';
+import { Order, RecipeInput, ComplementInput } from '../order';
 import { Contact } from '../../contacts/contact';
 import { Recipe } from '../../recipes/recipe';
+import { Complement } from '../../complements/complement';
 import { OrderService } from '../order.service';
 import { ContactService } from '../../contacts/contact.service';
 import { RecipeService } from '../../recipes/recipe.service';
+import { ComplementService } from '../../complements/complement.service';
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 
@@ -14,21 +17,28 @@ import { OrderDetailsComponent } from '../order-details/order-details.component'
   selector: 'order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css'],
-  providers: [OrderService, ContactService, RecipeService]
+  providers: [OrderService, ContactService, RecipeService, ComplementService]
 })
 
 export class OrderListComponent implements OnInit {
 
   orders: Order[];
+
   selectedOrder: Order;
 
   contacts: Contact[];
 
   recipes: Recipe[];
 
-  constructor(private orderService: OrderService, 
+  complements: Complement[];
+
+  orderForm: FormGroup;
+
+  constructor(private _fb: FormBuilder,
+              private orderService: OrderService, 
               private contactService: ContactService,
               private recipeService: RecipeService,
+              private complementService: ComplementService,
               private activatedRoute: ActivatedRoute) {}
 
 
@@ -49,10 +59,16 @@ export class OrderListComponent implements OnInit {
           this.recipes = recipes;
         });
 
+    this.complementService
+        .getComplements()
+        .then((complements: Complement[]) => {
+          this.complements = complements;
+        })
+
     // subscribe to router event
     this.activatedRoute.params.subscribe((params: Params) => {
       let orderId = params['id'];
-      if (orderId) {
+      if (orderId && orderId !== "undefined") {
         this.orderService.getOneOrder(orderId)
             .then((order: Order) => {this.selectOrder(order)})
       }
@@ -66,21 +82,60 @@ export class OrderListComponent implements OnInit {
     });
   };
 
+
   selectOrder(order: Order) {
+    // This the given recipe as the selected one.
     this.selectedOrder = order;
+    if (order) {
+      // Generate a FormGroup based on this recipe.
+      this.orderForm = this._fb.group({
+        _id: [(order._id)?(order._id):null],
+        name: [order.name],
+        contactId: [order.contactId],
+        recipes: this._fb.array([]),
+        complements: this._fb.array([]),
+        event: order.event,
+        price: order.price,
+        cost: order.cost,
+        date: order.date
+      });
+      // Add all the recipes to the form group.
+      const recipeControl = <FormArray>this.orderForm.controls['recipes'];
+      order.recipes.forEach(recipe => {
+        recipeControl.push(this._fb.group(recipe));  
+      });
+      // Add all the recipes to the form group.
+      const complementControl = <FormArray>this.orderForm.controls['complements'];
+      order.complements.forEach(complement => {
+        complementControl.push(this._fb.group(complement));  
+      });
+    }
   }
 
   createNewOrder() {
     var order: Order = {
       name: '',
       contactId: '',
-      recipeId: '',
+      recipes: [{
+        id: '',
+        qty: 0
+      }],
+      complements: [{
+        id: '',
+        qty: 0
+      }],
       event: '',
       price: 0,
+      cost: 0,
       date: ''
     };
     // By default, a newly-created contact will have the selected state.
     this.selectOrder(order);
+    // Init the list again, to get the last changes on the order model.
+    // This extra call to ngOnInit is only needed in this case, since we are using
+    // FormGroups to bind the user input, rather than the order class directly.
+    // Same explanation applies for all subsequent calls to ngOnInit.
+    this.ngOnInit();
   }
 
   deleteOrder = (orderId: String) => {
@@ -89,12 +144,14 @@ export class OrderListComponent implements OnInit {
       this.orders.splice(idx, 1);
       this.selectOrder(null);
     }
+    this.ngOnInit();
     return this.orders;
   }
 
   addOrder = (order: Order) => {
     this.orders.push(order);
     this.selectOrder(order);
+    this.ngOnInit();
     return this.orders;
   }
 
@@ -104,6 +161,7 @@ export class OrderListComponent implements OnInit {
       this.orders[idx] = order;
       this.selectOrder(order);
     }
+    this.ngOnInit();
     return this.orders;
   }
 }
