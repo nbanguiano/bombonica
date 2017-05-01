@@ -776,6 +776,11 @@
       "from": "cliui@>=2.1.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/cliui/-/cliui-2.1.0.tgz"
     },
+    "clockwork": {
+      "version": "0.1.4",
+      "from": "clockwork@latest",
+      "resolved": "https://registry.npmjs.org/clockwork/-/clockwork-0.1.4.tgz"
+    },
     "clone": {
       "version": "1.0.2",
       "from": "clone@>=1.0.2 <2.0.0",
@@ -1659,9 +1664,9 @@
       "resolved": "https://registry.npmjs.org/forever-agent/-/forever-agent-0.6.1.tgz"
     },
     "form-data": {
-      "version": "2.1.2",
+      "version": "2.1.4",
       "from": "form-data@>=2.1.1 <2.2.0",
-      "resolved": "https://registry.npmjs.org/form-data/-/form-data-2.1.2.tgz"
+      "resolved": "https://registry.npmjs.org/form-data/-/form-data-2.1.4.tgz"
     },
     "forwarded": {
       "version": "0.1.0",
@@ -2433,9 +2438,9 @@
       "dev": true
     },
     "getpass": {
-      "version": "0.1.6",
+      "version": "0.1.7",
       "from": "getpass@>=0.1.1 <0.2.0",
-      "resolved": "https://registry.npmjs.org/getpass/-/getpass-0.1.6.tgz",
+      "resolved": "https://registry.npmjs.org/getpass/-/getpass-0.1.7.tgz",
       "dependencies": {
         "assert-plus": {
           "version": "1.0.0",
@@ -4540,7 +4545,7 @@
     },
     "request": {
       "version": "2.81.0",
-      "from": "request@latest",
+      "from": "https://registry.npmjs.org/request/-/request-2.81.0.tgz",
       "resolved": "https://registry.npmjs.org/request/-/request-2.81.0.tgz"
     },
     "require_optional": {
@@ -4990,9 +4995,9 @@
       "resolved": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
     },
     "sshpk": {
-      "version": "1.11.0",
+      "version": "1.13.0",
       "from": "sshpk@>=1.7.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.11.0.tgz",
+      "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.13.0.tgz",
       "dependencies": {
         "assert-plus": {
           "version": "1.0.0",
@@ -5764,14 +5769,12 @@
     "xml2js": {
       "version": "0.4.17",
       "from": "xml2js@>=0.4.17 <0.5.0",
-      "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.17.tgz",
-      "dev": true
+      "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.17.tgz"
     },
     "xmlbuilder": {
       "version": "4.2.1",
       "from": "xmlbuilder@>=4.1.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-4.2.1.tgz",
-      "dev": true
+      "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-4.2.1.tgz"
     },
     "xmldom": {
       "version": "0.1.27",

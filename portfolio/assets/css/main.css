@@ -1611,7 +1611,8 @@
 			input[type="button"].special.color1,
 			button.special.color1,
 			.button.special.color1 {
-				color: #726193 !important;
+        background-color: #726193;
+				color: white !important;
 			}
 
 			input[type="submit"].special.color2,
