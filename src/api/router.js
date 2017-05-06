@@ -14,7 +14,7 @@ var mime = require("mime");
 var multer  = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, "./portfolio/images")
+    callback(null, "./portfolio/images/uploads")
   },
   filename: function (req, file, callback) {
     crypto.pseudoRandomBytes(16, function (err, raw) {

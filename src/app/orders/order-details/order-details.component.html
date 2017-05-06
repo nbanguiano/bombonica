@@ -77,15 +77,19 @@
         </a>
       </div>
     </div>
-
+<!--
     <div class="clearfix"></div>
-
     <div class="margin-20">
       <div>orderForm details:-</div>
       <pre>form value: <br>{{orderForm.value | json}}</pre>
     </div>
+-->
     <button class="btn btn-primary" *ngIf="!order._id" (click)="createOrder(orderForm.value)">Crear</button>
     <button class="btn btn-info" *ngIf="order._id" (click)="updateOrder(orderForm.value)">Actualizar</button>
     <button class="btn btn-danger" *ngIf="order._id" (click)="deleteOrder(order._id)">Eliminar</button>
+    <br/><br/>
+    <hr/>
+    <h3>Fotos</h3>
+    <image-list *ngIf="order._id" [order]="order" [images]="images"></image-list>
   </form>
 </div>
