@@ -14,7 +14,6 @@ import { RecipeListComponent } from '../recipes/recipe-list/recipe-list.componen
 import { SigninComponent } from '../signin/signin.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
   { path: 'admin', 
     canActivate: [CanActivateGuard],
     canActivateChild: [CanActivateChildGuard], 
