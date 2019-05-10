@@ -29,6 +29,11 @@ app.use(function(req, res, next) {
     next();
 });
 
+// We have bombonica.me now! So redirect "/" to "/me" for portfolio dispay.
+app.get('/', function (req, res) {
+  res.redirect('/me');
+})
+
 // The unprotected authentication endpoint, where the controller must return a token.
 // app.post("/signup", authController.signup);
 app.post("/signin", authController.signin);
